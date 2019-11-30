@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+  <main class="page lanidng-page">
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <h5>Latest Tweets<span class="float-right"><a class="latest-tweets-view-all" href="#">View All</a></span></h5>
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <div class="media card-t"><img class="border rounded-circle shadow-sm mr-3" src="{% static 'assets/img/avatar.png' %}" width="60px" height="60px">
+                      <div class="media-body">
+                        <h5>FirstName LastName</h5><span>30 minutes ago</span>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis maximus nisl ac diam feugiat, non vestibulum libero posuere. Vivamus pharetra leo non nulla egestas, nec
+                          malesuada orci finibus. </p>
+                      </div>
+                    </div>
+                    <div class="cart-t-footer"><span>Like<i class="far fa-heart cart-t-icon"></i></span><span>Comment<i class="far fa-edit cart-t-icon"></i></span><span>Share<i
+                            class="far fa-share-square cart-t-icon"></i></span></div>
+                  </li>
+                  <li class="list-group-item"><span>List Group Item 2</span></li>
+                  <li class="list-group-item"><span>List Group Item 3</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h5 class="mt-4">Latest Posts<span class="float-right"><a class="latest-tweets-view-all" href="#">View All</a></span></h5>
+                <ul class="list-group">
+                  <li class="list-group-item">
+                    <div class="media card-t"><img class="border rounded-circle shadow-sm mr-3" src="{% static 'assets/img/avatar.png' %}" width="60px" height="60px">
+                      <div class="media-body">
+                        <h5>FirstName LastName</h5><span>30 minutes ago</span>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis maximus nisl ac diam feugiat, non vestibulum libero posuere. Vivamus pharetra leo non nulla egestas, nec
+                          malesuada orci finibus. </p>
+                      </div>
+                    </div>
+                    <div class="cart-t-footer"><span>Like<i class="far fa-heart cart-t-icon"></i></span><span>Comment<i class="far fa-edit cart-t-icon"></i></span><span>Share<i
+                            class="far fa-share-square cart-t-icon"></i></span></div>
+                  </li>
+                  <li class="list-group-item"><span>List Group Item 2</span></li>
+                  <li class="list-group-item"><span>List Group Item 3</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col">
+                <h5>Top Followers</h5>
+                <ul class="list-group" id="top-followers-list">
+                  <li class="list-group-item" id="top-followers-list-item">
+                    <div class="top-followers-list-item-image" style="/*width: 32px;*//*height: 32px;*/"><img class="rounded-circle shadow-sm mr-3" src="{% static 'assets/img/avatar.png' %}"></div>
+                    <div class="top-followers-list-item-username"><a class="text-decoration-none" href="http://google.com">Link</a></div>
+                  </li>
+                  <li class="list-group-item"><span>List Group Item 2</span></li>
+                  <li class="list-group-item"><span>List Group Item 3</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h5 class="mt-4">Top Following</h5>
+                <ul class="list-group" id="top-followers-list">
+                  <li class="list-group-item" id="top-followers-list-item">
+                    <div class="top-followers-list-item-image" style="/*width: 32px;*//*height: 32px;*/"><img class="rounded-circle shadow-sm mr-3" src="{% static 'assets/img/avatar.png' %}"></div>
+                    <div class="top-followers-list-item-username"><a class="text-decoration-none" href="http://google.com">Link</a></div>
+                  </li>
+                  <li class="list-group-item"><span>List Group Item 2</span></li>
+                  <li class="list-group-item"><span>List Group Item 3</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

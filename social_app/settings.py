@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from decouple import config
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -22,13 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -40,7 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+    'rest_framework_swagger',
+    'knox',
 
+    'acc',
+    'core',
+    'post',
+    'tweet'
 ]
 
 MIDDLEWARE = [
@@ -74,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'social_app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -84,7 +87,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -104,7 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -121,5 +122,47 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 STATIC_URL = '/static/'
+
+# Custom static files, run 'python manage.py collectstatic', it will copy it to STATIC_ROOT
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'my_staticfiles'),
+                    )
+
+
+AUTH_USER_MODEL = 'acc.User'
+ADMINS = [('Shoaib Ashraf', 'shoaib.ashraf@hotmail.com')]
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    # 'acc.api.authentication.EmailAuthBackend',
+)
+
+REST_FRAMEWORK = {
+    # here it takes in a tuple, a tuple  takes in two values.
+    # so add a comma here
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+
+    # https://www.django-rest-framework.org/community/3.10-announcement/
+    # To get swagger to work again
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
+    # 'DATETIME_FORMAT': "%m/%d/%Y %H:%M:%S",
+
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+
+    "DEFAULT_PARSER_CLASSES":
+        [
+            'rest_framework.parsers.JSONParser',
+        ],
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+# CORS_ORIGIN_ALLOW_ALL = True

@@ -1,0 +1,82 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>{% block title %}{% endblock %}- SocialApp</title>
+
+  <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+  {#  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">#}
+  {#  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">#}
+  <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+
+</head>
+
+<body>
+<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
+  <div class="container"><a class="navbar-brand logo" href="{% url 'core:home' %}">SocialApp</a>
+    <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse"
+         id="navbarNav">
+      <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item" role="presentation"><a class="nav-link" href="register.html">Contact</a></li>
+        <li class="nav-item" role="presentation"><a class="nav-link" href="register.html">About</a></li>
+        <li class="nav-item nav-item-image" role="presentation">
+          <a class="nav-link" href="#">
+            <div class="inset"><img class="shadow-sm nav-bar-img" src="{% static 'assets/img/avatar.png' %}"></div>
+          </a>
+        </li>
+        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"></a>
+          <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a
+                  class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% block body %}
+{% endblock %}
+
+
+<footer class="page-footer-custom mt-5">
+  <div class="container">
+    <div class="links"><a class="m-2 text-black-50 nav-link-footer" href="#">F.A.Q</a></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>#}
+
+
+<script>
+    $(function () {
+        $('.datepicker').each(function () {
+            var picker = new Pikaday({
+                field: this
+            });
+        });
+    });
+    // $(function(){
+    //     $("#nav-bar-avatar").click(function(e){
+    //         e.preventDefault();
+    //         //$("#nav-bar-dropdown").click();
+    //         //$("#nav-bar-dropdown").addClass('show');
+    //         //$("#nav-bar-dropdown").dropdown('toggle')
+    //         $("#nav-bar-dropdown").dropdown("toggle");
+    //        // $('#nav-bar-dropdown').trigger("click");
+    //         //alert("clicked");
+    //     });
+    // });
+</script>
+
+</body>
+
+</html>
