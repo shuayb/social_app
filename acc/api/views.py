@@ -2,11 +2,13 @@
 from django.contrib.auth import get_user_model, user_logged_out
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.decorators.debug import sensitive_post_parameters
 from knox.auth import TokenAuthentication
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView, ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 # from rest_framework.permissions import IsAdminUser
 
@@ -128,3 +130,15 @@ class UserDetail(RetrieveUpdateAPIView):
 
         serializer.save()  # UserDetailSerializer's method update is executed
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UserFollowAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        following = get_user_model().objects.is_following(request.user,
+                                                          get_user_model().objects.get(pk=self.kwargs.get('pk')))
+        return Response({'is_following': following}, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        is_following = get_user_model().objects.toggle_follow(request.user,
+                                                              get_user_model().objects.get(pk=self.kwargs.get('pk')))
+        return Response({'following': is_following}, status=status.HTTP_200_OK)

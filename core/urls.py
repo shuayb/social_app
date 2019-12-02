@@ -11,5 +11,4 @@ urlpatterns = [
     path('about/', views.About.as_view(), name='about'),
 
     path('user/<slug:slug>/', acc_Profile.as_view(), name='user-profile'),
-
 ]

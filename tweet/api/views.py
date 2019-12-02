@@ -12,16 +12,11 @@ from .pagination import StandardResultsPagination
 from .serializers import TweetModelSerializer
 
 
-# class LikeToggleAPIView(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
-#
-#     def get(self, request, pk, format=None):
-#         tweet_qs = Tweet.objects.filter(pk=pk)
-#         message = "Not allowed"
-#         if request.user.is_authenticated():
-#             is_liked = Tweet.objects.like_toggle(request.user, tweet_qs.first())
-#             return Response({'liked': is_liked})
-#         return Response({"message": message}, status=400)
+class TweetLikeAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        is_liked = Tweet.objects.like_toggle(request.user,
+                                             Tweet.objects.get(pk=self.kwargs.get('tweet_pk')))
+        return Response({'liked': is_liked})
 
 
 # class RetweetAPIView(APIView):

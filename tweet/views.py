@@ -9,6 +9,6 @@ class NewTweet(CreateView):
     form_class = TweetForm
 
     def get_context_data(self, *args, **kwargs):
-        context = super(NewTweet, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
         context['create_url'] = reverse_lazy("api-tweet:create")
         return context

@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'knox',
     'widget_tweaks',
-    'crispy_forms',
     'django_js_reverse',
 
     # apps

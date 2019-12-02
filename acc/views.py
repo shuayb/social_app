@@ -25,7 +25,7 @@ class Dashboard(LoginRequiredMixin, TemplateView):
     template_name = "acc/dashboard.html"
 
     def get_context_data(self, *args, **kwargs):
-        context = super(Dashboard, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
         context['create_form'] = TweetForm()
         context['create_url'] = reverse_lazy("api-tweet:create")
         return context
@@ -105,6 +105,16 @@ class Profile(LoginRequiredMixin, DetailView):
     model = User
     slug_field = 'username'
     template_name = 'acc/user_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs.get('slug')
+        if self.request.user.username != self.kwargs.get('slug'):
+            context['is_following'] = User.objects.is_following(self.request.user,
+                                                                User.objects.get(username=slug))
+        else:
+            context['is_following'] = None
+        return context
 
 # DetailView without object pk or a slug.
 # class UserView(DetailView):

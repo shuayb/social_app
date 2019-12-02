@@ -6,11 +6,8 @@ from django.db import models
 from django.db.models import UniqueConstraint
 from django.urls import reverse
 
-from social_app import settings
-
-
-# from uuid import uuid4
-from social_app.settings import MEDIA_URL, STATIC_URL, DEFAULT_AVATAR_PATH
+from acc.managers import UserManager
+from social_app.settings import STATIC_URL, DEFAULT_AVATAR_PATH, AUTH_USER_MODEL
 
 
 class User(AbstractUser):
@@ -32,14 +29,14 @@ class User(AbstractUser):
 
     website = models.URLField(max_length=100, null=True)
 
-    following = models.ManyToManyField(settings.AUTH_USER_MODEL,
+    following = models.ManyToManyField(AUTH_USER_MODEL,
                                        through='UserFollowingBridge',
                                        through_fields=('from_user', 'to_user'),
                                        related_name='followers')
 
     def get_avatar_file_path(self, filename):
         ext = filename.split('.')[-1]
-        filename = "%s.%s" % (uuid.uuid4().hex, ext)
+        filename = "{}.{}".format(uuid.uuid4().hex, ext)
         return os.path.join('user_avatars', filename)
 
     avatar = models.ImageField(upload_to=get_avatar_file_path, blank=True, null=True)
@@ -79,6 +76,8 @@ class User(AbstractUser):
         #         if self.avatar != old_instance.avatar:
         #             old_instance.avatar.delete(False)
         super().save(*args, **kwargs)
+
+    objects = UserManager()
 
     class Meta:
         ordering = ('id',)

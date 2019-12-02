@@ -9,7 +9,7 @@
           fetchTweets();
 
           function fetchTweets() {
-              var url = Urls['api-tweet:list']({user_pk: {{ object.id }}});
+              var url = Urls['api-tweet:list']({"user_pk": {{ object.id }}});
               $.ajax({
                   url: url,
                   method: "GET",
@@ -31,31 +31,39 @@
 
 
               function generateHTMLTweet(tweet) {
+                  var like_status;
+                  if (tweet.did_like) {
+                      like_status = "Unlike";
+                  } else {
+                      like_status = "Like";
+                  }
 
-                // ES6 Tempalte strings
-                // Todo: check if Babel is needed for older browsers
-                data = `<li class="list-group-item list-group-item-tweet-post" data-tid="${tweet.id}">
-                    <div class="media card-t"><img class="border rounded-circle shadow-sm mr-3" src="${tweet.user.absolute_avatar_url}" width="60px" height="60px">
-                      <div class="media-body media-body-text-left">
-                        <h5 class="card-t-user">
-                          ${tweet.user.name} <span class="media-username-small"><a href="${tweet.user.url}">@${tweet.user.username}</a></span>
-                        </h5>
-                        <span class="card-t-timestamp" data-tdate="${tweet.date_display}">
-                           ${tweet.timesince}
-                        </span>
-                        <p class="card-t-content">
-                          ${tweet.content}
-                        </p>
+                  // ES6 Template strings
+                  // Todo: check if Babel is needed for older browsers
+
+                  data = `<li class="list-group-item list-group-item-tweet-post" data-tid="${tweet.id}">
+                      <div class="media card-t"><img class="border rounded-circle shadow-sm mr-3" src="${tweet.user.absolute_avatar_url}" width="60px" height="60px">
+                        <div class="media-body media-body-text-left">
+                          <h5 class="card-t-user">
+                            ${tweet.user.name} <span class="media-username-small"><a href="${tweet.user.url}">@${tweet.user.username}</a></span>
+                          </h5>
+                          <span class="card-t-timestamp" data-tdate="${tweet.date_display}">
+                             ${tweet.timesince}
+                          </span>
+                          <p class="card-t-content">
+                            ${tweet.content}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div class="card-t-footer">
-                      <span class="tweet-like" data-tid="${tweet.id}">Like</span>
-                      <span class="tweet-reply" data-tid="${tweet.id}">Reply</span>
-                      <span class="tweet-retweet" data-tid='${tweet.id}">Retweet</span>
-                    </div>
-                  </li>`;
-                return data
-              };
+                      <div class="card-t-footer">
+                        <span class="tweet-like" data-tid="${tweet.id}"> ` + like_status  + ` </span>
+                        <span class="tweet-reply" data-tid="${tweet.id}">Reply</span>
+                        <span class="tweet-retweet" data-tid='${tweet.id}">Retweet</span>
+                      </div>
+                    </li>`;
+                  return data
+
+              }
 
               if (tweetList.length > 0) {
                   $.each(tweetList, function (key, value) {
@@ -66,6 +74,52 @@
                   tweet_container.append(`<p>Sorry there are currently no tweets by this user.</p>`);
               }
           }
+
+          $(document.body).on("click", ".tweet-like", function (e) {
+              e.preventDefault();
+              var this_ = $(this);
+              $.ajax({
+                  method: "POST",
+                  url: Urls["api-tweet:like"]({"tweet_pk": this_.attr("data-tid")}),
+                  success: function (data) {
+                      if (data.liked) {
+                          this_.text("Liked")
+                      } else {
+                          this_.text("Like")
+                      }
+                  },
+                  error: function (data) {
+                      console.log("error");
+                      console.log(data)
+                  }
+
+              })
+          });
+
+          $(document.body).on("click", ".user-follow", function (e) {
+              //debugger;
+              e.preventDefault();
+              var this_ = $(this);
+              $.ajax({
+                  method: "POST",
+                  url: Urls["api-acc:follow"]({"pk": this_.attr("data-uid")}),
+                  success: function (data) {
+                      //debugger;
+                      if (data.following) {
+                          this_.text("Unfollow")
+                      } else {
+                          this_.text("Follow")
+                      }
+                  },
+                  error: function (data) {
+                      console.log("error");
+                      console.log(data)
+                  }
+
+              })
+          })
+
+
       });
   </script>
 
@@ -101,7 +155,13 @@
               </div>
               <div class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center">
                 <div class="card-profile-actions py-4 mt-lg-0">
-                  <a href="#" class="btn btn btn-info mr-4">Follow</a>
+                  {% if is_following is not None %}
+                    {% if is_following %}
+                      <a href="#" class="user-follow btn btn btn-info mr-4" data-uid="{{ object.id }}">Unfollow</a>
+                    {% else %}
+                      <a href="#" class="user-follow btn btn btn-info mr-4" data-uid="{{ object.id }}">Follow</a>
+                    {% endif %}
+                  {% endif %}
                   {#                  <a href="#" class="btn btn-sm btn-info mr-4">Follow</a>#}
                   {#                  <a href="#" class="btn btn-sm btn-default float-right">Message</a>#}
                 </div>
