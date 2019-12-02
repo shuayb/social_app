@@ -11,12 +11,12 @@ class Tweet(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=CASCADE)
     content = models.CharField(max_length=240)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='liked')
-    is_reply = models.BooleanField(default=False)
+    reply = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-timestamp']
+        ordering = ['-id']
 
     objects = TweetManager()
 

@@ -1,5 +1,5 @@
 from django.db.models import Manager
-from django.utils import timezone
+from django.utils import timezone as d_tz
 
 
 class TweetManager(Manager):
@@ -12,9 +12,9 @@ class TweetManager(Manager):
         qs = self.get_queryset().filter(
             user=user, parent=og_parent
         ).filter(
-            timestamp__year=timezone.now().year,
-            timestamp__month=timezone.now().month,
-            timestamp__day=timezone.now().day,
+            timestamp__year=d_tz.now().year,
+            timestamp__month=d_tz.now().month,
+            timestamp__day=d_tz.now().day,
             reply=False,
         )
         if qs.exists():

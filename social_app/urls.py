@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django_js_reverse.views import urls_js
 from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
@@ -25,11 +26,15 @@ urlpatterns = [
     # App Core
     path('', include('core.urls', namespace='core')),
     path('account/', include('acc.urls', namespace='acc')),
+    path('tweets/', include('tweet.urls', namespace='tweet')),
 
     # APIs
     path('api/v1/account/', include('acc.api.urls', namespace='api-acc')),
     path('api/v1/tweets/', include('tweet.api.urls', namespace='api-tweet')),
 
     # url(r'^api/tweet/', include('tweets.api.urls', namespace='tweet-api')),
+
+    # JS Path
+    path('url-js-list/', urls_js, name='js_reverse'),
 
 ]

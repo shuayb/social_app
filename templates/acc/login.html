@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+  <main class="main">
+    <div class="container pt-100">
+      <div class="about-me">
+        <div class="row">
+
+          <div class="col-5 mx-auto">
+
+            <div class="card shadow-1 border">
+              <div class="card-header text-center">
+                <h4>Login</h4>
+              </div>
+              <div class="card-body">
+
+
+                <form id="user-login-form" class="{% comment %}{% if form.errors %}was-validated{% endif %}{% endcomment %}" action="{% url "acc:login" %}" method="post" novalidate>
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ next }}"/>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+
+                    {{ form.username|add_class:'form-control'|attr:'placeholder:Enter Email' }}
+
+
+                    {% if form.username.errors %}
+                      <!-- Error Block -->
+                      {% for error in form.username.errors %}
+                        <span class="invalid-feedback">{{ error }}</span>
+                      {% endfor %}
+
+                      {#                                        <script>#}
+                      {#                                            var element1 = document.getElementById("id_username");#}
+                      {#                                            element1.classList.add("error-field");#}
+                      {#                                        </script>#}
+                      <!-- End of Error Block -->
+                    {% endif %}
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    {{ form.password|add_class:'form-control'|attr:'placeholder:Enter your password' }}
+
+                    {% if form.password.errors %}
+                      {% for error in form.password.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                      {% endfor %}
+                      {#                                <script>#}
+                      {#                                    var element2 = document.getElementById("id_password");#}
+                      {#                                    element2.classList.add("error-field");#}
+                      {#                                </script>#}
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                      {% for error in form.non_field_errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                  {#                <div class="form-group"><input class="form-control" type="email" placeholder="Your Email"></div>#}
+                  {#                <div class="form-group"><input class="form-control" type="password" placeholder="Your Password"></div>#}
+
+
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <a href="{% url 'acc:register' %}">Register</a>
+                    </div>
+                    <div class="form-group" id="sign-in-button">
+                      <button class="btn btn-primary" type="submit">Sign-in</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.utils.timesince import timesince
 
-from acc.api.serializers import UserDetailSerializer
+from acc.api.serializers import UserDetailSerializer, UserMiniSerializer
 from rest_framework.fields import CharField, SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
@@ -50,7 +50,7 @@ class ParentTweetModelSerializer(ModelSerializer):
 
 class TweetModelSerializer(ModelSerializer):
     parent_id = CharField(write_only=True, required=False)
-    user = UserDetailSerializer(read_only=True)
+    user = UserMiniSerializer(read_only=True)
     date_display = SerializerMethodField()
     timesince = SerializerMethodField()
     parent = ParentTweetModelSerializer(read_only=True)

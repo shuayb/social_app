@@ -36,6 +36,17 @@ class LoginSerializer(Serializer):
         raise serializers.ValidationError("Incorrect Credentials")
 
 
+class UserMiniSerializer(ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('id',
+                  'username',
+                  'name',
+                  'bio',
+                  'website',)
+                  # 'follower_count')
+
+
 class UserDetailSerializer(ModelSerializer):
     id = serializers.ReadOnlyField()
     follower_count = serializers.SerializerMethodField()
@@ -43,15 +54,14 @@ class UserDetailSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('id',
-                  'first_name',
-                  'last_name',
+                  'name',
                   'email',
                   'bio',
-                  'website',
-                  'follower_count')
+                  'website',)
+    #             'follower_count')
 
-    def get_follower_count(self, obj):
-        return 0
+    # def get_follower_count(self, obj):
+    #     return 0
 
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get('first_name', instance.first_name)

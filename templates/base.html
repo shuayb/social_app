@@ -1,82 +1,297 @@
 {% load staticfiles %}
+
+{#<!--#}
+{##}
+{#=========================================================#}
+{#* Argon Design System - v1.1.0#}
+{#=========================================================#}
+{##}
+{#* Product Page: https://www.creative-tim.com/product/argon-design-system#}
+{#* Copyright 2019 Creative Tim (https://www.creative-tim.com)#}
+{#* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md)#}
+{##}
+{#* Coded by Creative Tim#}
+{##}
+{#=========================================================#}
+{##}
+{#* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->#}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <title>{% block title %}{% endblock %}- SocialApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="A simple social network web app.">
+  <meta name="author" content="M. Shoaib Ashraf">
 
-  <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+  <title>{% block title %}Social App{% endblock title %}</title>
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-  {#  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">#}
-  {#  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">#}
-  <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+  <!-- Favicon -->
+  <link href="{% static 'assets/img/brand/favicon.png' %}" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+
+  <link href="{% static 'assets/vendor/nucleo/css/nucleo.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+
+  <!-- Argon CSS -->
+  <link type="text/css" href="{% static 'assets/css/argon.min.css' %}" rel="stylesheet">
+
+  <style>
+    .invalid-feedback {
+      display: block !important;
+      margin-left: 5px;
+    }
+
+    .error-field {
+      border-color: #f1556c;
+      padding-right: calc(1.5em + .9rem);
+      background-position: center right calc(.375em + .1875rem);
+      background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+    }
+
+    .error-field:focus {
+      border-color: #f1556c;
+      -webkit-box-shadow: 0 0 0 0.2rem rgba(241, 85, 108, .25);
+      box-shadow: 0 0 0 0.2rem rgba(241, 85, 108, .25);
+    }
+
+    .card-size-20 {
+      width: 20rem;
+    }
+
+    .footer {
+      padding: 0;
+      background: unset;
+    }
+
+    .navbar {
+      padding: 0.5rem 0.5rem;
+    }
+
+    .container-padding-100 {
+      padding-top: 100px
+    }
+
+    .section-profile-cover-custom {
+      height: 350px
+    }
+
+    .top-followers-heading {
+      margin-bottom: 0;
+    }
+
+    .card-no-padding {
+      padding: 0;
+    }
+
+    .list-group-item-tweet-post:first-child {
+      border-top-left-radius: 0;
+    }
+
+    .list-group-item-tweet-post {
+      border: 0;
+    }
+
+    /* Card */
+
+    .card-t-footer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-around;
+      border-radius: 5px;
+    }
+
+
+    .card-t-timestamp {
+    }
+
+    .card-t-user {
+      margin-bottom: 0 !important;
+    }
+
+    .card-t-content {
+      padding-top: 5px;
+    }
+
+    /* Widgets Headers */
+
+    .latest-posts-heading {
+      margin-bottom: 0;
+    }
+
+    .latest-tweets-heading {
+      margin-bottom: 0;
+    }
+
+    .media-body-text-left {
+      text-align: left;
+    }
+
+
+    .media-username-small {
+      margin-left: 0.4rem;
+      font-size: 1rem;
+    }
+
+  </style>
 
 </head>
 
 <body>
-<nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient">
-  <div class="container"><a class="navbar-brand logo" href="{% url 'core:home' %}">SocialApp</a>
-    <button data-toggle="collapse" class="navbar-toggler" data-target="#navbarNav"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse"
-         id="navbarNav">
-      <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item" role="presentation"><a class="nav-link" href="register.html">Contact</a></li>
-        <li class="nav-item" role="presentation"><a class="nav-link" href="register.html">About</a></li>
-        <li class="nav-item nav-item-image" role="presentation">
-          <a class="nav-link" href="#">
-            <div class="inset"><img class="shadow-sm nav-bar-img" src="{% static 'assets/img/avatar.png' %}"></div>
-          </a>
-        </li>
-        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"></a>
-          <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a
-                  class="dropdown-item" role="presentation" href="#">Third Item</a></div>
-        </li>
-      </ul>
+
+
+<header class="header-global">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-default">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'core:home' %}">Social App</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-default">
+        <div class="navbar-collapse-header">
+          <div class="row">
+            <div class="col-6 collapse-brand">
+              <a href="index.html">
+                <img src="{% static 'assets/img/brand/blue.png' %}">
+              </a>
+            </div>
+            <div class="col-6 collapse-close">
+              <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <ul class="navbar-nav ml-lg-auto">
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" href="{% url 'core:home' %}">
+              {#                <i class="ni ni-favourite-28"></i>#}
+              <span class="nav-link-inner--text ">Home</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" href="{% url 'core:contact' %}">
+              {#                <i class="ni ni-notification-70"></i>#}
+              <span class="nav-link-inner--text ">Contact</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-icon" href="{% url 'core:about' %}">
+              {#                <i class="ni ni-notification-70"></i>#}
+              <span class="nav-link-inner--text ">About</span>
+            </a>
+          </li>
+
+
+
+
+          {% if request.user.is_authenticated %}
+            {% comment %}
+            <li class="nav-item nav-item-image" role="presentation">
+              <a class="nav-link" href="#">
+                <div class="inset"><img class="shadow-sm nav-bar-img" src="{% static 'assets/img/avatar.png' %}"></div>
+              </a>
+            </li>
+            <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"></a>
+              <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" role="presentation" href="{% url 'acc:update-profile' %}">Update Profile</a>
+                <a class="dropdown-item" role="presentation" href="#">Second Item</a>
+                <a class="dropdown-item" role="presentation" href="{% url 'acc:logout' %}">Log out</a></div>
+            </li>
+            {% endcomment %}
+
+            <li class="nav-item dropdown">
+              <a class="nav-link nav-link-icon" href="#" id="navbar-default_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {#                <i class="ni ni-settings-gear-65"></i>#}
+                <span class="nav-link-inner--text">@{{ request.user.username }}</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
+                <a href="{% url 'acc:update-profile' %}" class="dropdown-item">Update Profile</a>
+                <div class="dropdown-divider"></div>
+                <a href="{% url 'acc:logout' %}" class="dropdown-item">Logout</a>
+              </div>
+            </li>
+
+
+          {% else %}
+
+            {% comment %}
+            <li class="nav-item">
+              <a class="nav-link nav-link-icon" href="{% url 'acc:login' %}">
+                {#                <i class="ni ni-notification-70"></i>#}
+                <span class="nav-link-inner--text ">Login</span>
+              </a>
+            </li>
+            {% endcomment %}
+
+            <li class="nav-item ml-3" style="padding-top: 5px">
+              <a href="{% url 'acc:register' %}" class="btn btn-neutral btn-xs btn-icon">
+                <span class="btn-inner--icon">
+                </span>
+                <span class="nav-link-inner--text">Register</span>
+              </a>
+            </li>
+
+          {% endif %}
+        </ul>
+
+
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</header>
 
 {% block body %}
 {% endblock %}
 
-
-<footer class="page-footer-custom mt-5">
+<footer class="footer">
   <div class="container">
-    <div class="links"><a class="m-2 text-black-50 nav-link-footer" href="#">F.A.Q</a></div>
+    <hr>
+    <div class="row align-items-center justify-content-md-between">
+      <div class="col">
+        <div class="copyright">2019 <a href="#">SocialApp</a>.
+        </div>
+      </div>
+      <div class="col">
+        <ul class="nav nav-footer justify-content-end">
+          <li class="nav-item">
+            <a href="{% url 'core:about' %}" class="nav-link">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a href="https://github.com/creativetimofficial/argon-design-system/blob/master/LICENSE.md" class="nav-link">Theme MIT License</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-{#<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>#}
+
+<!-- Core -->
+<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'assets/vendor/popper/popper.min.js' %}"></script>
+<script src="{% static 'assets/vendor/bootstrap/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/vendor/headroom/headroom.min.js' %}"></script>
+
+<!-- Argon JS -->
+<script src="{% static 'assets/js/argon.min.js' %}"></script>
+
+<!-- Reverse Js -->
+<script src="{% url 'js_reverse' %}" type="text/javascript"></script>
 
 
-<script>
-    $(function () {
-        $('.datepicker').each(function () {
-            var picker = new Pikaday({
-                field: this
-            });
-        });
-    });
-    // $(function(){
-    //     $("#nav-bar-avatar").click(function(e){
-    //         e.preventDefault();
-    //         //$("#nav-bar-dropdown").click();
-    //         //$("#nav-bar-dropdown").addClass('show');
-    //         //$("#nav-bar-dropdown").dropdown('toggle')
-    //         $("#nav-bar-dropdown").dropdown("toggle");
-    //        // $('#nav-bar-dropdown').trigger("click");
-    //         //alert("clicked");
-    //     });
-    // });
-</script>
+<!-- Custom JS-->
+{% block customjs %}
+{% endblock %}
 
 </body>
-
 </html>
