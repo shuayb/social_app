@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django_js_reverse.views import urls_js
 from rest_framework_swagger.views import get_swagger_view
+from django.conf.urls.static import static
+from social_app import settings
 
 urlpatterns = [
 
@@ -38,3 +40,6 @@ urlpatterns = [
     path('url-js-list/', urls_js, name='js_reverse'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

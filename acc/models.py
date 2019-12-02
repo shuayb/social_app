@@ -1,8 +1,16 @@
+import os
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import UniqueConstraint
+from django.urls import reverse
 
 from social_app import settings
+
+
+# from uuid import uuid4
+from social_app.settings import MEDIA_URL, STATIC_URL, DEFAULT_AVATAR_PATH
 
 
 class User(AbstractUser):
@@ -29,6 +37,13 @@ class User(AbstractUser):
                                        through_fields=('from_user', 'to_user'),
                                        related_name='followers')
 
+    def get_avatar_file_path(self, filename):
+        ext = filename.split('.')[-1]
+        filename = "%s.%s" % (uuid.uuid4().hex, ext)
+        return os.path.join('user_avatars', filename)
+
+    avatar = models.ImageField(upload_to=get_avatar_file_path, blank=True, null=True)
+
     # Todo: Use field to save the count in future
     @property
     def total_following(self):
@@ -38,12 +53,32 @@ class User(AbstractUser):
     def total_followers(self):
         return self.followers.count()
 
+    @property
+    def absolute_avatar_url(self):
+        if self.avatar:
+            return self.avatar.url
+        else:
+            return '{}{}'.format(STATIC_URL, DEFAULT_AVATAR_PATH)
+
+    def get_absolute_url(self):
+        return reverse('core:user-profile', args=[str(self.username)])
+
     # for Email Login
     USERNAME_FIELD = 'email'
     # remove email from REQUIRED_FIELDS
     REQUIRED_FIELDS = []
     first_name = None
     last_name = None
+
+    def save(self, *args, **kwargs):
+        # Check save if adding via
+        # Todo Delete previous image file if updating
+        # if not self._state.adding:
+        #     old_instance = User.objects.get(pk=self.pk)
+        #     if old_instance.avatar:
+        #         if self.avatar != old_instance.avatar:
+        #             old_instance.avatar.delete(False)
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ('id',)

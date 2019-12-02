@@ -31,12 +31,14 @@
 
 
               function generateHTMLTweet(tweet) {
-                data = `
-                  <li class="list-group-item list-group-item-tweet-post" data-tid="${tweet.id}">
-                    <div class="media card-t"><img class="border rounded-circle shadow-sm mr-3" src="{% static 'assets/img/avatar.png' %}" width="60px" height="60px">
+
+                // ES6 Tempalte strings
+                // Todo: check if Babel is needed for older browsers
+                data = `<li class="list-group-item list-group-item-tweet-post" data-tid="${tweet.id}">
+                    <div class="media card-t"><img class="border rounded-circle shadow-sm mr-3" src="${tweet.user.absolute_avatar_url}" width="60px" height="60px">
                       <div class="media-body media-body-text-left">
                         <h5 class="card-t-user">
-                          ${tweet.user.name} <span class="media-username-small">${tweet.user.username}</span>
+                          ${tweet.user.name} <span class="media-username-small"><a href="${tweet.user.url}">@${tweet.user.username}</a></span>
                         </h5>
                         <span class="card-t-timestamp" data-tdate="${tweet.date_display}">
                            ${tweet.timesince}
@@ -51,11 +53,9 @@
                       <span class="tweet-reply" data-tid="${tweet.id}">Reply</span>
                       <span class="tweet-retweet" data-tid='${tweet.id}">Retweet</span>
                     </div>
-                  </li>
-                `;
+                  </li>`;
                 return data
               };
-
 
               if (tweetList.length > 0) {
                   $.each(tweetList, function (key, value) {
@@ -95,7 +95,7 @@
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
                   <a href="#">
-                    <img src="{% static 'assets/img/theme/team-1-800x800.jpg' %}" class="rounded-circle">
+                    <img src="{{ object.absolute_avatar_url }}" class="rounded-circle">
                   </a>
                 </div>
               </div>

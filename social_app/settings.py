@@ -139,6 +139,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 STATIC_URL = '/static/'
 
+
 # Custom static files, run 'python manage.py collectstatic', it will copy it to STATIC_ROOT
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'my_staticfiles'),
                     )
@@ -196,3 +197,12 @@ PASSWORD_HASHERS = [
 # JS_REVERSE_EXCLUDE_NAMESPACES = ['admin', 'djdt', ...]
 # JS_REVERSE_EXCLUDE_NAMESPACES = ['admin']
 JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['api-acc', 'api-tweet']
+
+
+# Assigns read+write to user, group and other
+FILE_UPLOAD_PERMISSIONS = 0o666
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+DEFAULT_AVATAR_PATH = 'assets/img/avatar.png'

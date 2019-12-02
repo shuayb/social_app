@@ -2,6 +2,13 @@ from django import forms
 from django.contrib.auth import get_user_model, password_validation
 from django.contrib.auth.forms import AuthenticationForm
 
+# For Image
+from PIL import Image
+import sys
+from io import BytesIO
+from uuid import uuid4
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 User = get_user_model()
 
 
@@ -82,7 +89,44 @@ class UpdateUserProfileForm(forms.ModelForm):
                   'email',
                   'bio',
                   'website',
-                  'location')  # Note that we didn't mention user field here.
+                  'location',
+                  'avatar')  # Note that we didn't mention user field here.
+
+        widgets = {
+            'avatar': forms.FileInput(attrs={
+                'accept': 'image/*',  # TODO this is not an actual validation! don't rely on that!
+                'id': 'id_avatar'
+            })
+        }
+
+    def clean_avatar(self):
+        image_field = self.cleaned_data.get('avatar')
+        # Fixing name
+        # image_field.name = '{}.{}'.format(uuid4().hex,
+        #                                   image_field.name.split('.')[1])
+
+        if image_field:
+            image = Image.open(image_field).convert('RGB')
+            w, h = image.size
+            # Divide the image by half, if it is too large
+            # Todo: Use a client-side image resizer
+            if w > 1000 or h > 1000:
+                image = image.resize((int(w / 2), int(h / 2)), Image.ANTIALIAS)
+                output = BytesIO()
+
+                # Save the new image output
+                image.save(output, format='JPEG', quality=80)
+                output.seek(0)
+
+                # change imagefield to newly modified
+                image_field = InMemoryUploadedFile(output,
+                                                   'ImageField', "%s.jpg" % image_field.name.split('.')[0],
+                                                   'image/jpeg',
+                                                   sys.getsizeof(image),
+                                                   None)
+                return image_field
+            else:
+                return image_field
 
     # def save(self, user=None):
     #     pass

@@ -37,14 +37,17 @@ class LoginSerializer(Serializer):
 
 
 class UserMiniSerializer(ModelSerializer):
+    url = serializers.URLField(source='get_absolute_url', read_only=True)
+
     class Meta:
         model = get_user_model()
         fields = ('id',
                   'username',
                   'name',
                   'bio',
-                  'website',)
-                  # 'follower_count')
+                  'absolute_avatar_url',
+                  'url')
+        # 'follower_count')
 
 
 class UserDetailSerializer(ModelSerializer):
@@ -58,6 +61,7 @@ class UserDetailSerializer(ModelSerializer):
                   'email',
                   'bio',
                   'website',)
+
     #             'follower_count')
 
     # def get_follower_count(self, obj):
