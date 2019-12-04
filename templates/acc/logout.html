@@ -4,18 +4,14 @@
 {% block title %}Logout{% endblock %}
 
 {% block body %}
-  <main class="page landing-page">
-    <section class="portfolio-block block-intro">
-      <div class="container">
-        <div class="about-me">
-          <div class="row">
-            <div class="col">
-              <h3>Logout</h3>
-              <p>You have logged out successfully</p>
-            </div>
-          </div>
+  <div class="container">
+    <div class="logout">
+      <div class="row">
+        <div class="col-12 text-center mt-4">
+          <h3>Logout</h3>
+          <p>You have logged out successfully, <a href="{% url 'acc:login' %}">Login here again.</a></p>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 {% endblock %}

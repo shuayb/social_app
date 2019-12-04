@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from .models import User
+from .models import User, UserFollowingBridge
 
 
 class UserModelAdmin(admin.ModelAdmin):
@@ -14,5 +14,14 @@ class UserModelAdmin(admin.ModelAdmin):
         model = User
 
 
+class UserFollowingBridgeModelAdmin(admin.ModelAdmin):
+    list_display = ('id', 'from_user', 'to_user', 'date_followed')
+
+    class Meta:
+        model = UserFollowingBridge
+
+
 admin.site.register(User, UserModelAdmin)
+admin.site.register(UserFollowingBridge, UserFollowingBridgeModelAdmin)
+
 admin.site.unregister(Group)

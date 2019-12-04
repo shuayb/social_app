@@ -1,13 +1,104 @@
 {% extends 'base.html' %}
-
 {% load staticfiles %}
+{% block title %}Dashboard | {{ block.super }} {% endblock %}
 
-{% block title %}Dashboard{% endblock %}
+{% block customjs %}
+  <script>
+      $(function () {
+          var currentUserID = {{ request.user.id }};
+          function fetchFollowingTopUsers() {
+              $.ajax({
+                  url: Urls["api-acc:following"](currentUserID),
+                  type: 'get',
+                  dataType: 'json',
+                  beforeSend: function () {
+                      {% comment %}
+                      $("#withdrawal-create").block({
+                          message: '<i class="icon-spinner2 spinner"></i>',
+                          overlayCSS: {
+                              backgroundColor: '#fff',
+                              opacity: 0.8,
+                              cursor: 'wait'
+                          },
+                          css: {
+                              border: 0,
+                              padding: 0,
+                              backgroundColor: 'none'
+                          }
+                      });
+                      {% endcomment %}
+                  },
+                  success: function (data, textStatus, xhr) {
+                      //debugger;
+                  },
+                  error: function (data, textStatus, xhr) {
+                      //debugger;
+                  }
+              });
+          }
+
+          function loadCreate() {
+              {# Alternative way #}
+              {# //$('#tweet:new-tweet-partial').load("{% url 'new-tweet-partial' %}");#}
+              $.ajax({
+                  url: '{% url 'tweet:new-tweet-partial' %}',
+                  type: 'get',
+                  dataType: 'json',
+                  beforeSend: function () {
+                      // Todo add a spinner
+                      {% comment %}
+                      $("#withdrawal-create").block({
+                          message: '<i class="icon-spinner2 spinner"></i>',
+                          overlayCSS: {
+                              backgroundColor: '#fff',
+                              opacity: 0.8,
+                              cursor: 'wait'
+                          },
+                          css: {
+                              border: 0,
+                              padding: 0,
+                              backgroundColor: 'none'
+                          }
+                      });
+                      {% endcomment %}
+                  },
+                  success: function (data) {
+
+                      if (data['status'] == 'ok') {
+                          $("#js-create-tweet-post-box").html(data.html);
+                          //$("#withdrawal-create").unblock();
+                          // Todo Temporary Max Stack Error Resolve
+                      }
+                  }
+              });
+          }
+          loadCreate();
+          // Todo: fix it
+          //fetchFollowingTopUsers();
+      });
+
+  </script>
+
+
+  {% include 'common/../tweet/shared/js_tweet_api_partial.html' with id=request.user.id query_type='feed'  %}
+
+  <script>
+      $(document).ready(function () {
+          SETTINGS.tweetsAPI();
+      });
+  </script>
+
+
+
+{% endblock %}
 
 {% block body %}
   <section>
     <div class="container pt-5 mb-5 upper">
       <div class="row flex-row chat">
+
+        {# Left - Top Followers       #}
+
         <div class="col-lg-4">
           <div class="card bg-secondary">
             <div class="card-header">
@@ -32,7 +123,6 @@
                 </div>
               </a>
               {% endcomment %}
-
               <a href="javascript:;" class="list-group-item">
                 <div class="media">
                   <img alt="Image" src="{% static 'assets/img/faces/christian.jpg' %}" class="avatar shadow">
@@ -43,43 +133,34 @@
                         <small class="text-muted">1 hour ago</small>
                       </div>
                     </div>
-                    {# <span class="text-muted text-small col-10 p-0 text-truncate d-block">Computer users and programmers</span>#}
                   </div>
                 </div>
               </a>
             </div>
           </div>
         </div>
+
+        {#   Right     #}
+
         <div class="col-lg-8">
-          <div class="card">
-            <div class="card-header d-inline-block">
-              <h5 class="latest-posts-heading">Latest Posts</h5>
+          <div class="row">
+            <div class="col-12 create-tweet-post-box" id="js-create-tweet-post-box">
             </div>
-            <div class="card-body card-no-padding">
-              <ul class="list-group no-padding-list-group">
-                <li class="list-group-item list-group-item-tweet-post">
-                  <div class="media card-t"><img class="border rounded-circle shadow-sm mr-3" src="{% static 'assets/img/avatar.png' %}" width="60px" height="60px">
-                    <div class="media-body">
-                      <h5 class="card-t-user">FirstName LastName</h5>
-                      <span class="card-t-timestamp">30 minutes ago</span>
-                      <p class="card-t-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis maximus nisl ac diam feugiat, non vestibulum libero posuere. Vivamus pharetra leo non
-                        nulla egestas, nec
-                        malesuada orci finibus. </p>
-                    </div>
-                  </div>
-                  <div class="card-t-footer">
-                    <span>Like
-                      {# <i class="far fa-heart cart-t-icon"></i>#}
-                    </span>
-                    <span>Comment
-                      {# <i class="far fa-edit cart-t-icon"></i>#}
-                    </span>
-                    <span>Share
-                      {# <i class="far fa-share-square cart-t-icon"></i>#}
-                    </span>
-                  </div>
-                </li>
-              </ul>
+          </div>
+
+          <div class="row pt-4">
+            <div class="col-12">
+              <div class="card">
+              <div class="card-header d-inline-block">
+                <h5 class="latest-posts-heading">Latest Tweets</h5>
+              </div>
+              <div class="card-body card-no-padding">
+                <div class="user-tweets-box">
+                  <ul class="list-group no-padding-list-group" id="tweet-list-group">
+                  </ul>
+                </div>
+              </div>
+            </div>
             </div>
           </div>
         </div>

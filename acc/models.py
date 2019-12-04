@@ -2,6 +2,7 @@ import os
 import uuid
 
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.urls import reverse
@@ -102,3 +103,7 @@ class UserFollowingBridge(models.Model):
         constraints = [
             UniqueConstraint(fields=['from_user', 'to_user'], name='unique_users'),
         ]
+
+    def clean(self):
+        if self.from_user == self.to_user:
+            raise ValidationError("Can't follow self.")

@@ -1,0 +1,23 @@
+{% load widget_tweaks %}
+<div class="card-body card-no-padding">
+  <form role="form" class="card bg-secondary" id="js-create-tweet-post-form" method="post" action="{{ create_api_url }}">
+    <div class="card-body">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="message">Post your thoughts!</label>
+        {{ form.content|add_class:'form-control form-control-alternative'|attr:'placeholder:Share your thoughts' }}
+          {% if form.content.errors %}
+            {% for error in form.content.errors %}
+              <span class="invalid-feedback">{{ error }}</span>
+            {% endfor %}
+          {% endif %}
+{#        {{ object }}#}
+      </div>
+      <div class="row">
+        <div class="col-md-6 ml-auto">
+          <button type="submit" id="js-create-tweet-post-form-submit" class="btn btn-primary pull-right">Tweet!</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

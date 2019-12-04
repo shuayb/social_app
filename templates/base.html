@@ -39,106 +39,8 @@
   <!-- Argon CSS -->
   <link type="text/css" href="{% static 'assets/css/argon.min.css' %}" rel="stylesheet">
 
-  <style>
-    .invalid-feedback {
-      display: block !important;
-      margin-left: 5px;
-    }
-
-    .error-field {
-      border-color: #f1556c;
-      padding-right: calc(1.5em + .9rem);
-      background-position: center right calc(.375em + .1875rem);
-      background-size: calc(.75em + .375rem) calc(.75em + .375rem);
-    }
-
-    .error-field:focus {
-      border-color: #f1556c;
-      -webkit-box-shadow: 0 0 0 0.2rem rgba(241, 85, 108, .25);
-      box-shadow: 0 0 0 0.2rem rgba(241, 85, 108, .25);
-    }
-
-    .card-size-20 {
-      width: 20rem;
-    }
-
-    .footer {
-      padding: 0;
-      background: unset;
-    }
-
-    .navbar {
-      padding: 0.5rem 0.5rem;
-    }
-
-    .container-padding-100 {
-      padding-top: 100px
-    }
-
-    .section-profile-cover-custom {
-      height: 350px
-    }
-
-    .top-followers-heading {
-      margin-bottom: 0;
-    }
-
-    .card-no-padding {
-      padding: 0;
-    }
-
-    .list-group-item-tweet-post:first-child {
-      border-top-left-radius: 0;
-    }
-
-    .list-group-item-tweet-post {
-      border: 0;
-    }
-
-    /* Card */
-
-    .card-t-footer {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      justify-content: space-around;
-      border-radius: 5px;
-    }
-
-
-    .card-t-timestamp {
-    }
-
-    .card-t-user {
-      margin-bottom: 0 !important;
-    }
-
-    .card-t-content {
-      padding-top: 5px;
-    }
-
-    /* Widgets Headers */
-
-    .latest-posts-heading {
-      margin-bottom: 0;
-    }
-
-    .latest-tweets-heading {
-      margin-bottom: 0;
-    }
-
-    .media-body-text-left {
-      text-align: left;
-    }
-
-
-    .media-username-small {
-      margin-left: 0.4rem;
-      font-size: 1rem;
-    }
-
-  </style>
-
+  <!-- Base CSS -->
+  {% include 'common/css_base.html' %}
 </head>
 
 <body>
@@ -191,9 +93,6 @@
             </a>
           </li>
 
-
-
-
           {% if request.user.is_authenticated %}
             {% comment %}
             <li class="nav-item nav-item-image" role="presentation">
@@ -213,6 +112,8 @@
               <a class="nav-link nav-link-icon" href="#" id="navbar-default_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {#                <i class="ni ni-settings-gear-65"></i>#}
                 <span class="nav-link-inner--text">@{{ request.user.username }}</span>
+
+
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
                 <a href="{% url 'acc:update-profile' %}" class="dropdown-item">Update Profile</a>
@@ -223,15 +124,6 @@
 
 
           {% else %}
-
-            {% comment %}
-            <li class="nav-item">
-              <a class="nav-link nav-link-icon" href="{% url 'acc:login' %}">
-                {#                <i class="ni ni-notification-70"></i>#}
-                <span class="nav-link-inner--text ">Login</span>
-              </a>
-            </li>
-            {% endcomment %}
 
             <li class="nav-item ml-3" style="padding-top: 5px">
               <a href="{% url 'acc:register' %}" class="btn btn-neutral btn-xs btn-icon">
@@ -253,12 +145,19 @@
 {% block body %}
 {% endblock %}
 
+
+<div class="modal fade" id="modal-default-tweet-reply" tabindex="-1" role="dialog" aria-labelledby="modal-default-tweet-reply" aria-hidden="true">
+  <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+  </div>
+</div>
+
+
 <footer class="footer">
   <div class="container">
     <hr>
     <div class="row align-items-center justify-content-md-between">
       <div class="col">
-        <div class="copyright">2019 <a href="#">SocialApp</a>.
+        <div class="copyright">2019 <a href="{% url 'core:home' %}">SocialApp</a>.
         </div>
       </div>
       <div class="col">
@@ -275,66 +174,14 @@
   </div>
 </footer>
 
-
-<!-- Core -->
-<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'assets/vendor/popper/popper.min.js' %}"></script>
-<script src="{% static 'assets/vendor/bootstrap/bootstrap.min.js' %}"></script>
-<script src="{% static 'assets/vendor/headroom/headroom.min.js' %}"></script>
-
-<!-- Argon JS -->
-<script src="{% static 'assets/js/argon.min.js' %}"></script>
+<!-- Base JS Script -->
+{% include 'common/js_base.html' %}
 
 <!-- Reverse Js -->
 <script src="{% url 'js_reverse' %}" type="text/javascript"></script>
 
 <!-- CSRF Token -->
-<script>
-    $(function () {
-        // csrf
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
-        var csrftoken = getCookie('csrftoken');
-
-        if (typeof csrftoken === 'undefined') {
-            csrftoken = "{{ csrf_token }}";
-        }
-
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-
-        $.ajaxSetup({
-            beforeSend: function (xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-                //if (userConfig.token.length > 0) {
-                //    xhr.setRequestHeader("Authorization", "token " + userConfig.token);
-                //}
-            }
-        });
-        // eo csrf
-    });
-
-
-</script>
-
+{% include 'common/js_csrf_partial.html' %}
 
 <!-- Custom JS-->
 {% block customjs %}

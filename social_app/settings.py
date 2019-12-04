@@ -63,7 +63,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # 'social_app.middleware.restrict_users_middleware.AuthenticationRequiredMiddleware'
+    # Middleware to redirect Admin to Admin views only.
+    'social_app.middleware.restrict_users_middleware.RestrictAdminToAdminArea'
 ]
 
 ROOT_URLCONF = 'social_app.urls'
@@ -195,7 +196,7 @@ PASSWORD_HASHERS = [
 
 # JS_REVERSE_EXCLUDE_NAMESPACES = ['admin', 'djdt', ...]
 # JS_REVERSE_EXCLUDE_NAMESPACES = ['admin']
-JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['api-acc', 'api-tweet']
+JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['api-acc', 'api-tweet', 'tweet']
 
 
 # Assigns read+write to user, group and other

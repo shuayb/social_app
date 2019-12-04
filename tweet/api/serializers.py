@@ -8,7 +8,7 @@ from tweet.models import Tweet
 
 
 class ParentTweetModelSerializer(ModelSerializer):
-    user = UserDetailSerializer(read_only=True)
+    user = UserMiniSerializer(read_only=True)
     date_display = SerializerMethodField()
     timesince = SerializerMethodField()
     likes = SerializerMethodField()
@@ -28,7 +28,6 @@ class ParentTweetModelSerializer(ModelSerializer):
         ]
 
     def get_did_like(self, obj):
-        request = self.context.get("request")
         try:
             user = request.user
             if user.is_authenticated():
@@ -72,12 +71,17 @@ class TweetModelSerializer(ModelSerializer):
             'did_like',
             'reply',
         ]
-        read_only_fields = ['reply']
+        # read_only_fields = ['reply']
 
     def get_did_like(self, obj):
         request = self.context.get("request")
-        if request.user in obj.liked.all():
-            return True
+        try:
+            user = request.user
+            if user.is_authenticated():
+                if user in obj.liked.all():
+                    return True
+        except:
+            pass
         return False
 
     def get_likes(self, obj):

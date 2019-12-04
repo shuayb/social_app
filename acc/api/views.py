@@ -17,16 +17,17 @@ from rest_framework.views import APIView
 
 from acc.api.helpers import set_to_lower_case
 from acc.api.permissions import OwnerCanUpdateOnly, IsSuperAdminUser
+from acc.models import User
 from .serializers import UserSerializer, \
     RegisterSerializer, \
     LoginSerializer, \
-    UserDetailSerializer
+    UserDetailSerializer, UserMiniSerializer
 
 # For Session authentication in case
-# from django.contrib.auth import (
-#     login as django_login,
-#     logout as django_logout
-# )
+from django.contrib.auth import (
+    login as django_login,
+    logout as django_logout
+)
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -66,7 +67,6 @@ class LoginAPIView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
 
-        # For setting cookie
         # Using sessions framework of django
         # django_login(self.request, user)
 
@@ -77,7 +77,6 @@ class LoginAPIView(GenericAPIView):
 
 
 class LogoutAPIView(APIView):
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -90,18 +89,9 @@ class LogoutAPIView(APIView):
         except (AttributeError, ObjectDoesNotExist):
             pass
 
-        # django_logout(request)
-        # user_logged_out.send(sender=request.user.__class__,
-        #                      request=request, user=request.user)
+        django_logout(request)
         return Response({"detail": "Successfully logged out."},
                         status=status.HTTP_200_OK)
-
-
-# class UserList(ListAPIView):
-#     name = 'user-list'
-#     queryset = get_user_model().objects.all()
-#     serializer_class = UserSerializer
-#     permission_classes = [IsSuperAdminUser]
 
 
 class UserDetailView(RetrieveUpdateAPIView):
@@ -113,13 +103,12 @@ class UserDetailView(RetrieveUpdateAPIView):
         serializer = self.serializer_class(request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
 
-        # When next line - serializer.save() -- is executed
-        # UserDetailSerializer's method update is executed
+        # When next line - serializer.save() -- is executed UserDetailSerializer's method update is executed
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class UserDetail(RetrieveUpdateAPIView):
+class UserDetailAPIView(RetrieveUpdateAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UserDetailSerializer
     permission_classes = [IsAuthenticated & OwnerCanUpdateOnly]
@@ -142,3 +131,10 @@ class UserFollowAPIView(APIView):
         is_following = get_user_model().objects.toggle_follow(request.user,
                                                               get_user_model().objects.get(pk=self.kwargs.get('pk')))
         return Response({'following': is_following}, status=status.HTTP_200_OK)
+
+
+# class UserFollowingListAPIView(ListAPIView):
+#     serializer_class = UserMiniSerializer
+
+    # def get_queryset(self):
+    #     return User.objects.filter(id=self.kwargs.get('pk')).following()

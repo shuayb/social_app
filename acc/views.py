@@ -16,19 +16,19 @@ User = get_user_model()
 
 
 class ToProfile(LoginRequiredMixin, View):
-    # Could use generic.base RedirectView
+    # Todo: Improve this, could use generic.base RedirectView
     def get(self, request, *args, **kwargs):
         return redirect('acc:update-profile')
 
 
 class Dashboard(LoginRequiredMixin, TemplateView):
     template_name = "acc/dashboard.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['create_form'] = TweetForm()
-        context['create_url'] = reverse_lazy("api-tweet:create")
-        return context
+    # Using ajax instead of this way, keeping dashboard as light as possible.
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super().get_context_data(*args, **kwargs)
+    #     context['create_form'] = TweetForm()
+    #     context['create_url'] = reverse_lazy("api-tweet:create")
+    #     return context
 
 
 class Login(LoginView):
@@ -44,8 +44,7 @@ class Logout(LoginRequiredMixin, LogoutView):
     template_name = "acc/logout.html"
 
 
-# Use form view
-# Override save() method of model
+# Todo: Use form view, override save() method of model
 class Register(View):
     form_class = UserRegistrationForm
     # initial = {'key': 'value'}
@@ -104,7 +103,7 @@ class UpdateProfile(LoginRequiredMixin, UpdateView):
 class Profile(LoginRequiredMixin, DetailView):
     model = User
     slug_field = 'username'
-    template_name = 'acc/user_profile.html'
+    template_name = 'acc/detail_view.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

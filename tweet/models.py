@@ -7,7 +7,8 @@ from tweet.managers import TweetManager
 
 
 class Tweet(models.Model):
-    parent = models.ForeignKey("self", null=True, on_delete=SET_NULL)
+    # Add blank=True, its used in validation in Admin panel.
+    parent = models.ForeignKey("self", null=True, on_delete=SET_NULL, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=CASCADE)
     content = models.CharField(max_length=240)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='liked')
@@ -16,7 +17,7 @@ class Tweet(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-timestamp']
 
     objects = TweetManager()
 
@@ -26,11 +27,13 @@ class Tweet(models.Model):
     def get_absolute_url(self):
         return reverse("tweet:detail", kwargs={"pk": self.pk})
 
+
     def get_parent(self):
         the_parent = self
         if self.parent:
             the_parent = self.parent
         return the_parent
+
 
     def get_children(self):
         parent = self.get_parent()
