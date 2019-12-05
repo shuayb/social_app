@@ -18,10 +18,14 @@
                 <a href="{% url 'core:user-profile' slug=user.username %}">@{{ user.username }}</a></span>
           </h5>
           <span class="card-t-timestamp" data-tdate="{{ post.timestamp }}">{{ post.timestamp|timesince }} ago</span>
-
           {% if post.parent %} (shared from <a href="{% url 'core:user-profile' slug=post.parent.user.username %}">@{{ post.parent.user.username }}</a>){% endif %}
 
           <p class="card-t-content">{{ post.content }}</p>
+
+          {% if post.attached_image %}
+            <img class="img-responsive mt-2 mb-4" src="{{ post.attached_image.url }}" style="width: 100%;">
+          {% endif %}
+
         </div>
       </div>
 

@@ -38,7 +38,6 @@ The ul with id 'post-list-group', is needed to get it to work.
             url: url,
             method: "GET",
             success: function (data) {
-                console.log(data);
                 postList = data.results;
                 parseAllPosts(postList);
             },
@@ -70,7 +69,7 @@ The ul with id 'post-list-group', is needed to get it to work.
         }
         var image;
         if (post.attached_image != null) {
-            image = '<img class="img-responsive" src="' + post.attached_image + '" style="width: 100%;">';
+            image = '<img class="img-responsive mt-2 mb-4" src="' + post.attached_image + '" style="width: 100%;">';
         }else {
             image = "";
         }
@@ -94,9 +93,9 @@ The ul with id 'post-list-group', is needed to get it to work.
             '</div>' +
             '</div>' +
             '<div class="card-t-footer">' +
-            '<span class="post-like" data-pid="' + post.id + '"> ' + like_status + ' </span>' +
-            '<span class="post-comment js-comment-post" data-pid="' + post.id + '" data-toggle="modal" data-target="#modal-default-post-comment">Comment</span> ' +
-            '<span class="post-share" data-pid="' + post.id + '">Share</span>' +
+            '<button class="btn btn-sm btn-outline-primary post-like" data-pid="' + post.id + '"> ' + like_status + ' </button>' +
+            '<button class="btn btn-sm btn-outline-primary post-comment js-comment-post" data-pid="' + post.id + '" data-toggle="modal" data-target="#modal-default-post-comment">Comment</button> ' +
+            '<button class="btn btn-sm btn-outline-primary post-share" data-pid="' + post.id + '">Share</button>' +
             '</div>' +
             '</li>';
         return data
@@ -109,7 +108,6 @@ The ul with id 'post-list-group', is needed to get it to work.
             url: url,
             method: "GET",
             success: function (data) {
-                console.log(data);
                 postList = data.results;
                 parseAllPosts(postList);
             },
@@ -125,8 +123,8 @@ The ul with id 'post-list-group', is needed to get it to work.
             url: url,
             method: "GET",
             success: function (data) {
-                //debugger;
-                console.log(data);
+
+
                 commentList = data.comments;
                 parseAllComments(commentList);
                 //updateHashLinks();
@@ -157,7 +155,7 @@ The ul with id 'post-list-group', is needed to get it to work.
     }
 
     function generateHTMLComment(comment) {
-        //debugger;
+        ;
         var like_status;
         if (comment.did_like) {
             like_status = "Unlike";
@@ -218,7 +216,7 @@ The ul with id 'post-list-group', is needed to get it to work.
         var form = $(this);
         // double-click prevent
         $(this).find(':submit').attr('disabled', 'disabled');
-        debugger
+
         $.ajax({
             url: form.attr("action"),
             //data: form.serialize(),
@@ -228,7 +226,7 @@ The ul with id 'post-list-group', is needed to get it to work.
             type: form.attr("method"),
             //dataType: 'json',
             success: function (data, textStatus, xhr) {
-                //debugger
+
                 if (xhr.status === 201) {
                     //new PNotify({
                     //    text: 'Post Posted!',
@@ -251,7 +249,7 @@ The ul with id 'post-list-group', is needed to get it to work.
                 console.log("error");
                 console.log(data.statusText);
                 console.log(data.status);
-                console.log(data);
+
             }
         });
     });
@@ -289,11 +287,11 @@ The ul with id 'post-list-group', is needed to get it to work.
             type: 'GET',
             dataType: 'json',
             beforeSend: function () {
-                //debugger;
+                ;
                 post_comment_modal.find(".modal-dialog").html("");
             },
             success: function (data) {
-                //debugger;
+                ;
                 post_comment_modal.find(".modal-dialog").html(data.comment_partial_html);
                 post_comment_modal.modal('show');
             }
@@ -306,14 +304,13 @@ The ul with id 'post-list-group', is needed to get it to work.
         var form = $(this);
         // double-click prevent
         $(this).find(':submit').attr('disabled', 'disabled');
-        //debugger
+
         $.ajax({
             url: form.attr("action"),
             data: form.serialize(),
             type: form.attr("method"),
             dataType: 'json',
             success: function (data, textStatus, xhr) {
-                debugger
                 if (xhr.status === 201) {
                     //new PNotify({
                     //    text: 'Replied succesfully.!',
@@ -339,7 +336,7 @@ The ul with id 'post-list-group', is needed to get it to work.
                 console.log("error");
                 console.log(data.statusText);
                 console.log(data.status);
-                console.log(data);
+
             }
         });
     });
@@ -352,7 +349,7 @@ The ul with id 'post-list-group', is needed to get it to work.
             method: "POST",
             url: Urls["api-post:share"]({"post_pk": this_.attr("data-pid")}),
             success: function (data, textStatus, xhr) {
-                //debugger;
+
                 if (data.shared) {
                     this_.text("Shared")
                 } else {
@@ -362,7 +359,7 @@ The ul with id 'post-list-group', is needed to get it to work.
             },
             error: function (data) {
                 console.log("error");
-                console.log(data);
+
             }
         })
     });

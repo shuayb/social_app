@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Register | {{ block.super }}{% endblock %}
 
 {% block body %}
 
@@ -24,13 +25,27 @@
                 <div class="text-center text-muted mb-4">
                   <h4>Sign up with</h4>
                 </div>
-                <form >
+
+                <form autocomplete="off" action="{% url 'acc:register' %}" novalidate method="post">
+
+                  {% csrf_token %}
+
                   <div class="form-group">
                     <div class="input-group input-group-alternative mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Name" type="text">
+
+                      {{ form.username|add_class:'form-control'|attr:'placeholder:Username' }}
+                      {% if form.username.errors %}
+                        <!-- Error Block -->
+                        {% for error in form.username.errors %}
+                          <span class="invalid-feedback">{{ error }}</span>
+                        {% endfor %}
+                      {% endif %}
+
+                      {#                      <input class="form-control" placeholder="Name" type="text">#}
+
                     </div>
                   </div>
                   <div class="form-group">
@@ -38,7 +53,14 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Email" type="email">
+                      {#                      <input class="form-control" placeholder="Email" type="email">#}
+                      {{ form.email|add_class:'form-control'|attr:'placeholder:Email' }}
+                      {% if form.email.errors %}
+                        <!-- Error Block -->
+                        {% for error in form.email.errors %}
+                          <span class="invalid-feedback">{{ error }}</span>
+                        {% endfor %}
+                      {% endif %}
                     </div>
                   </div>
                   <div class="form-group">
@@ -46,20 +68,50 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Password" type="password">
+                      {{ form.password|add_class:'form-control'|attr:'placeholder:Password' }}
+                      {% if form.password.errors %}
+                        <!-- Error Block -->
+                        {% for error in form.password.errors %}
+                          <span class="invalid-feedback">{{ error }}</span>
+                        {% endfor %}
+                      {% endif %}
+                      {#                      <input class="form-control" placeholder="Password" type="password">#}
                     </div>
                   </div>
-{#                  <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>#}
-{#                  <div class="row my-4">#}
-{#                    <div class="col-12">#}
-{#                      <div class="custom-control custom-control-alternative custom-checkbox">#}
-{#                        <input class="custom-control-input" id="customCheckRegister" type="checkbox">#}
-{#                        <label class="custom-control-label" for="customCheckRegister"><span>I agree with the <a href="#">Privacy Policy</a></span></label>#}
-{#                      </div>#}
-{#                    </div>#}
-{#                  </div>#}
+
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      </div>
+                      {{ form.password2|add_class:'form-control'|attr:'placeholder:Re-type Password' }}
+                      {% if form.password2.errors %}
+                        <!-- Error Block -->
+                        {% for error in form.password2.errors %}
+                          <span class="invalid-feedback">{{ error }}</span>
+                        {% endfor %}
+                      {% endif %}
+
+                      {% if form.non_field_errors %}
+                      {% for error in form.non_field_errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                      {% endfor %}
+                    {% endif %}
+
+                      {#                      <input class="form-control" placeholder="Password" type="password">#}
+                    </div>
+                  </div>
+                  {#                  <div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>#}
+                  {#                  <div class="row my-4">#}
+                  {#                    <div class="col-12">#}
+                  {#                      <div class="custom-control custom-control-alternative custom-checkbox">#}
+                  {#                        <input class="custom-control-input" id="customCheckRegister" type="checkbox">#}
+                  {#                        <label class="custom-control-label" for="customCheckRegister"><span>I agree with the <a href="#">Privacy Policy</a></span></label>#}
+                  {#                      </div>#}
+                  {#                    </div>#}
+                  {#                  </div>#}
                   <div class="text-center">
-                    <button type="button" class="btn btn-primary mt-4">Create account</button>
+                    <button type="submit" class="btn btn-primary mt-4">Sign Up</button>
                   </div>
                 </form>
               </div>

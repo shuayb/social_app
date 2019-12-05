@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block title %}Post By {{ post.user }} | {{ block.super }} {% endblock %}
+
+
+
 {% block customjs %}
   {% include 'common/../post/shared/js_post_api_partial.html' with id=object.id query_type='post-with-comments' %}
   <script>

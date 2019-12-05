@@ -5,7 +5,7 @@
       {% csrf_token %}
       <div class="form-group">
         <label for="message">Post your thoughts!</label>
-        {{ form.content|add_class:'form-control form-control-alternative'|attr:'placeholder:Share your thoughts' }}
+        {{ form.content|add_class:'form-control form-control-alternative'|attr:'placeholder:Type it out' }}
           {% if form.content.errors %}
             {% for error in form.content.errors %}
               <span class="invalid-feedback">{{ error }}</span>

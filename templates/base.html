@@ -57,8 +57,9 @@
         <div class="navbar-collapse-header">
           <div class="row">
             <div class="col-6 collapse-brand">
-              <a href="index.html">
-                <img src="{% static 'assets/img/brand/blue.png' %}">
+              <a href="{% url 'core:home' %}">
+{#                <img src="{% static 'assets/img/brand/blue.png' %}">#}
+                  Social App
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -79,12 +80,12 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="{% url 'core:contact' %}">
+{#          <li class="nav-item">#}
+{#            <a class="nav-link nav-link-icon" href="{% url 'core:contact' %}">#}
               {#                <i class="ni ni-notification-70"></i>#}
-              <span class="nav-link-inner--text ">Contact</span>
-            </a>
-          </li>
+{#              <span class="nav-link-inner--text ">Contact</span>#}
+{#            </a>#}
+{#          </li>#}
 
           <li class="nav-item">
             <a class="nav-link nav-link-icon" href="{% url 'core:about' %}">
@@ -116,6 +117,7 @@
 
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
+                <a href="{% url 'core:user-profile' slug=request.user.username %}" class="dropdown-item">View Profile</a>
                 <a href="{% url 'acc:update-profile' %}" class="dropdown-item">Update Profile</a>
                 <div class="dropdown-divider"></div>
                 <a href="{% url 'acc:logout' %}" class="dropdown-item">Logout</a>
@@ -126,10 +128,10 @@
           {% else %}
 
             <li class="nav-item ml-3" style="padding-top: 5px">
-              <a href="{% url 'acc:register' %}" class="btn btn-neutral btn-xs btn-icon">
+              <a href="{% url 'acc:login' %}" class="btn btn-neutral btn-xs btn-icon">
                 <span class="btn-inner--icon">
                 </span>
-                <span class="nav-link-inner--text">Register</span>
+                <span class="nav-link-inner--text">Login</span>
               </a>
             </li>
 
@@ -168,6 +170,9 @@
       </div>
       <div class="col">
         <ul class="nav nav-footer justify-content-end">
+          <li class="nav-item">
+            <a href="{% url 'acc:register' %}" class="nav-link">Sign Up</a>
+          </li>
           <li class="nav-item">
             <a href="{% url 'core:about' %}" class="nav-link">About Us</a>
           </li>

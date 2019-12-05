@@ -19,6 +19,8 @@ class PostManager(Manager):
 
         obj = self.model(parent=original_parent,
                          user=user,
-                         content=parent_obj.content)
+                         content=parent_obj.content,
+                         attached_image=parent_obj.attached_image
+                         )
         obj.save()
         return obj

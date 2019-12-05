@@ -56,6 +56,12 @@ class UserMiniSerializer(ModelSerializer):
                   'url')
         # 'follower_count')
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if not data['name']:
+            data['name'] = ""
+        return data
+
 
 class UserDetailSerializer(ModelSerializer):
     id = serializers.ReadOnlyField()

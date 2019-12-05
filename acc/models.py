@@ -20,7 +20,7 @@ class User(AbstractUser):
                                   #          "registered. If you have forgotten "
                                   #          "your password, reset it."
                               })
-    name = models.CharField(max_length=50, null=True)
+    name = models.CharField(max_length=50, null=True, blank=True)
     bio = models.CharField(max_length=160, null=True, blank=True)
     location = models.CharField(max_length=30, null=True, blank=True)
     website = models.URLField(max_length=100, null=True, blank=True)

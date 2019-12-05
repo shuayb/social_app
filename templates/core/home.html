@@ -74,7 +74,7 @@
                           </div>
                         </div>
 
-                         <a href="#" class="text-light"><small>Forgot password?</small></a>
+                        {#                         <a href="#" class="text-light"><small>Forgot password?</small></a>#}
 
                         {#                        <div class="custom-control custom-control-alternative custom-checkbox">#}
                         {#                          <input class="custom-control-input" id="customCheckLogin" type="checkbox">#}
@@ -82,9 +82,21 @@
                         {#                            <span>Remember me</span>#}
                         {#                          </label>#}
                         {#                        </div>#}
-                        <div class="text-center mt-3">
-                          <button type="submit" class="btn btn-primary">Sign in</button>
+                        <div class="d-flex justify-content-between">
+                          <div>
+                            <a class="text-light" href="{% url 'acc:register' %}"><small>Sign-up</small></a>
+                          </div>
+                          <div class="form-group" id="sign-in-button">
+                            <button class="btn btn-primary" type="submit">Sign-in</button>
+                          </div>
                         </div>
+{#                        <div class="text-center mt-3">#}
+{#                          <button type="submit" class="btn btn-primary">Sign in</button>#}
+{#                        </div>#}
+{#                        <div class="text-right">#}
+{#                          <a href="{% url 'acc:register' %}" class="text-light"><small>Sign up?</small></a>#}
+{#                        </div>#}
+
                       </form>
                     </div>
                   </div>
@@ -94,12 +106,12 @@
             </div>
           </div>
         </div>
-{#        <!-- SVG separator -->#}
-{#        <div class="separator separator-bottom separator-skew">#}
-{#          <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">#}
-{#            <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>#}
-{#          </svg>#}
-{#        </div>#}
+        {#        <!-- SVG separator -->#}
+        {#        <div class="separator separator-bottom separator-skew">#}
+        {#          <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">#}
+        {#            <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>#}
+        {#          </svg>#}
+        {#        </div>#}
       </section>
       <!-- 1st Hero Variation -->
     </div>

@@ -75,7 +75,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             url: url,
             method: "GET",
             success: function (data) {
-                console.log(data);
+
                 var tweetList = data.results;
                 parseAllTweets(tweetList);
             },
@@ -92,7 +92,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             url: url,
             method: "GET",
             success: function (data) {
-                console.log(data);
+
                 tweetList = data.results;
 
                 parseAllTweets(tweetList);
@@ -112,7 +112,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             url: url,
             method: "GET",
             success: function (data) {
-                console.log(data);
+
                 tweetList = data.results;
                 parseAllTweets(tweetList);
                 //updateHashLinks();
@@ -149,7 +149,13 @@ The ul with id 'tweet-list-group', is needed to get it to work.
 
         var parent_block = ""
         if (tweet.parent != null) {
-            parent_block = ' (retweeted from <a href="' + tweet.parent.user.url + '">@' + tweet.parent.user.username + '</a>)';
+
+            // Is a reply?
+            if (tweet.reply) {
+                parent_block = ' (reply to <a href="' + tweet.parent.user.url + '">@' + tweet.parent.user.username + '</a>)';
+            } else {
+                parent_block = ' (retweeted from <a href="' + tweet.parent.user.url + '">@' + tweet.parent.user.username + '</a>)';
+            }
         }
 
         data = '<li class="list-group-item list-group-item-tweet-post" data-tid="' + tweet.id + '"> ' +
@@ -165,9 +171,9 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             '</div>' +
             '</div>' +
             '<div class="card-t-footer">' +
-            '<span class="tweet-like" data-tid="' + tweet.id + '"> ' + like_status + ' </span>' +
-            '<span class="tweet-reply js-reply-tweet" data-tid="' + tweet.id + '" data-toggle="modal" data-target="#modal-default-tweet-reply">Reply</span> ' +
-            '<span class="tweet-retweet" data-tid="' + tweet.id + '">Retweet</span>' +
+            '<button class="btn btn-sm btn-outline-primary tweet-like" data-tid="' + tweet.id + '"> ' + like_status + ' </button>' +
+            '<button class="btn btn-sm btn-outline-primary tweet-reply js-reply-tweet" data-tid="' + tweet.id + '" data-toggle="modal" data-target="#modal-default-tweet-reply">Reply</span> ' +
+            '<button class="btn btn-sm btn-outline-primary tweet-retweet" data-tid="' + tweet.id + '">Retweet</span>' +
             '</div>' +
             '</li>';
         return data
@@ -225,7 +231,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             method: "POST",
             url: Urls["api-tweet:retweet"]({"tweet_pk": this_.attr("data-tid")}),
             success: function (data, textStatus, xhr) {
-                //debugger;
+
                 if (data.retweeted) {
                     this_.text("Retweeted")
                 } else {
@@ -235,7 +241,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             },
             error: function (data) {
                 console.log("error");
-                console.log(data);
+
             }
         })
     });
@@ -251,11 +257,11 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             type: 'GET',
             dataType: 'json',
             beforeSend: function () {
-                //debugger;
+
                 tweet_reply_modal.find(".modal-dialog").html("");
             },
             success: function (data) {
-                //debugger;
+
                 tweet_reply_modal.find(".modal-dialog").html(data.reply_partial_html);
                 tweet_reply_modal.modal('show');
             }
@@ -268,14 +274,14 @@ The ul with id 'tweet-list-group', is needed to get it to work.
         var form = $(this);
         // double-click prevent
         $(this).find(':submit').attr('disabled', 'disabled');
-        //debugger
+
         $.ajax({
             url: form.attr("action"),
             data: form.serialize(),
             type: form.attr("method"),
             dataType: 'json',
             success: function (data, textStatus, xhr) {
-                //debugger
+
                 if (xhr.status === 201) {
                     //new PNotify({
                     //    text: 'Replied succesfully.!',
@@ -301,7 +307,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
                 console.log("error");
                 console.log(data.statusText);
                 console.log(data.status);
-                console.log(data);
+
             }
         });
     });
@@ -311,7 +317,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
         var form = $(this);
         // double-click prevent
         $(this).find(':submit').attr('disabled', 'disabled');
-        //debugger
+
         $.ajax({
             url: form.attr("action"),
             data: form.serialize(),
@@ -341,7 +347,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
                 console.log("error");
                 console.log(data.statusText);
                 console.log(data.status);
-                console.log(data);
+
             }
         });
     });

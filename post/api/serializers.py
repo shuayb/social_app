@@ -1,8 +1,9 @@
 from django.utils.timesince import timesince
+from rest_framework import serializers
 
 from acc.api.serializers import UserDetailSerializer, UserMiniSerializer
 from rest_framework.fields import CharField, SerializerMethodField
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, Serializer
 
 from post.models import Post, Comment
 
@@ -55,6 +56,12 @@ class CommentSerializer(ModelSerializer):
         return comment
 
 
+class ParentSerializer(Serializer):
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
+
+
 class PostModelSerializer(ModelSerializer):
     user = UserMiniSerializer(read_only=True)
     date_display = SerializerMethodField()
@@ -73,7 +80,8 @@ class PostModelSerializer(ModelSerializer):
             'timesince',
             'likes',
             'did_like',
-            'attached_image'
+            'attached_image',
+            # 'parent'
         ]
         # read_only_fields = ['reply']
 
@@ -95,9 +103,18 @@ class PostModelSerializer(ModelSerializer):
     def get_timesince(self, obj):
         return timesince(obj.timestamp) + " ago"
 
+    def to_representation(self, obj):
+        # Add any self-referencing fields here (if not already done)
+        if 'parent' not in self.fields:
+            self.fields['parent'] = PostModelSerializer(obj)
+        return super().to_representation(obj)
+
 
 class PostCommentsModelSerializer(PostModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
 
     class Meta(PostModelSerializer.Meta):
         fields = PostModelSerializer.Meta.fields + ['comments']
+
+
+
