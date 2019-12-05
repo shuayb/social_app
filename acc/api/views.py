@@ -14,7 +14,7 @@ from knox.models import AuthToken
 from rest_framework.views import APIView
 
 from acc.api.helpers import set_to_lower_case
-from acc.api.permissions import OwnerCanUpdateOnly  #, IsSuperAdminUser
+from acc.api.permissions import OwnerCanUpdateOnly  # IsSuperAdminUser
 from acc.models import User
 from .serializers import UserSerializer, \
     RegisterSerializer, \
@@ -141,11 +141,13 @@ class UserFollowingListAPIView(ListAPIView):
     serializer_class = UserMiniSerializer
 
     def get_queryset(self):
-        return User.objects.filter(id=self.kwargs.get('pk')).following()
+        user = User.objects.get(id=self.kwargs.get('pk'))
+        return User.objects.following_top(user)
 
 
 class UserFollowersListAPIView(ListAPIView):
     serializer_class = UserMiniSerializer
 
     def get_queryset(self):
-        return User.objects.filter(id=self.kwargs.get('pk')).followers()
+        user = User.objects.get(id=self.kwargs.get('pk'))
+        return User.objects.followers_top(user)

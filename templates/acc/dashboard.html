@@ -7,13 +7,13 @@
       $(function () {
           var currentUserID = {{ request.user.id }};
 
-          // fix this.
           function fetchFollowingTopUsers() {
               $.ajax({
                   url: Urls["api-acc:following"](currentUserID),
                   type: 'get',
                   dataType: 'json',
                   beforeSend: function () {
+
                       {% comment %}
                       $("#withdrawal-create").block({
                           message: '<i class="icon-spinner2 spinner"></i>',
@@ -29,18 +29,65 @@
                           }
                       });
                       {% endcomment %}
+
                   },
                   success: function (data, textStatus, xhr) {
-                      //debugger;
+                      var container = $('#top-following-list-group');
+                      if (data.length > 0) {
+                          $.each(data, function (key, value) {
+                              var generated = generateHTMLUsers(value);
+                              container.append(generated);
+                          });
+                      } else {
+                          container.append("No users yet.");
+                      }
                   },
                   error: function (data, textStatus, xhr) {
-                      //debugger;
+                      debugger;
                   }
               });
           }
 
-          // Todo: fix it
-          //fetchFollowingTopUsers();
+          function fetchFollowersTopUsers() {
+              $.ajax({
+                  url: Urls["api-acc:followers"](currentUserID),
+                  type: 'get',
+                  dataType: 'json',
+                  beforeSend: function () {
+                  },
+                  success: function (data, textStatus, xhr) {
+                      var container = $('#top-followers-list-group');
+                      if (data.length > 0) {
+                          $.each(data, function (key, value) {
+                              var generated = generateHTMLUsers(value);
+                              container.append(generated);
+                          });
+                      } else {
+                          //container.append("No users yet.");
+                      }
+                  },
+                  error: function (data, textStatus, xhr) {
+                      debugger;
+                  }
+              });
+          }
+
+          function generateHTMLUsers(user) {
+              data = '<li class="list-group-item list-group-item-user" data-uid="' + user.id + '"> ' +
+                  '<div class="media card-t"><img class="border rounded-circle shadow-sm mr-3" src="' + user.absolute_avatar_url + '" width="38px" height="38px">' +
+                  '<div class="media-body media-body-text-left user-list-item-username">' +
+                  '<h5 class="card-t-user">' +
+                  user.name + '<span class="media-username-small"><a href="' + user.url + '">@' + user.username + ' </a></span>' +
+                  '</h5> ' +
+                  '</div>' +
+                  '</div>' +
+                  '</li>';
+              return data
+          }
+
+          fetchFollowingTopUsers();
+          fetchFollowersTopUsers();
+
       });
 
   </script>
@@ -72,42 +119,24 @@
         <div class="col-lg-4">
           <div class="card bg-secondary">
             <div class="card-header">
+              <h5 class="top-followers-heading">Top Following</h5>
+            </div>
+            <div class="list-group list-group-chat list-group-flush">
+              <ul class="list-group no-padding-list-group" id="top-following-list-group">
+              </ul>
+            </div>
+          </div>
+
+          <div class="card bg-secondary mt-4 mb-4">
+            <div class="card-header">
               <h5 class="top-followers-heading">Top Followers</h5>
             </div>
             <div class="list-group list-group-chat list-group-flush">
-              {% comment %}
-              <! -- Todo The below one has bg-gradient, looks pretty, try to integrate if time is left -->
-              <a href="javascript:;" class="list-group-item active bg-gradient-primary">
-                <div class="media">
-                  <img alt="Image" src="{% static 'assets/img/faces/christian.jpg' %}" class="avatar">
-                  <div class="media-body ml-2">
-                    <div class="justify-content-between align-items-center">
-                      <h6 class="mb-0 text-white">Charlie Watson
-                        <span class="badge badge-success"></span>
-                      </h6>
-                      <div>
-                        <small>Typing...</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              {% endcomment %}
-              <a href="javascript:;" class="list-group-item">
-                <div class="media">
-                  <img alt="Image" src="{% static 'assets/img/faces/christian.jpg' %}" class="avatar shadow">
-                  <div class="media-body ml-3">
-                    <div class="justify-content-between align-items-center">
-                      <h6 class="mb-0">Jane Doe</h6>
-                      <div>
-                        <small class="text-muted">1 hour ago</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
+              <ul class="list-group no-padding-list-group" id="top-followers-list-group">
+              </ul>
             </div>
           </div>
+
         </div>
 
         {#   Right     #}
