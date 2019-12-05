@@ -20,7 +20,7 @@ Follow these steps to create database on Windows
     create user socialapp_u with password 'zYTe6sX66ebX5X8';
     grant all on database socialapp to socialapp_u;
 
-Where `zYTe6sX66ebX5X8` is the DB password, set it to your preference.
+Where `zYTe6sX66ebX5X8` is the user password, set it to your preference.
 
 
 If you use Linux
