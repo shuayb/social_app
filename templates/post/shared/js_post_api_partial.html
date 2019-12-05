@@ -163,10 +163,10 @@ The ul with id 'post-list-group', is needed to get it to work.
             like_status = "Like";
         }
 
-        var parent_block = ""
-        if (comment.parent != null) {
-            parent_block = ' (shared from <a href="' + post.parent.user.url + '">@' + post.parent.user.username + '</a>)';
-        }
+        var parent_block = "";
+        //if (comment.parent != null) {
+        //    parent_block = ' (shared from <a href="' + post.parent.user.url + '">@' + post.parent.user.username + '</a>)';
+        //}
 
         data = '<li class="list-group-item list-group-item-post-post" data-cid="' + comment.id + '"> ' +
             '<div class="media card-t"><img class="border rounded-circle shadow-sm mr-3" src="' + comment.user.absolute_avatar_url + '" width="60px" height="60px">' +

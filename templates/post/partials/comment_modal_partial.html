@@ -18,7 +18,10 @@
                 <a href="{% url 'core:user-profile' slug=user.username %}">@{{ user.username }}</a></span>
           </h5>
           <a href="{% url 'post:detail' pk=post.pk %}" class="card-t-timestamp" data-tdate="{{ post.timestamp }}">{{ post.timestamp|timesince }} ago</a>
-          {% if post.parent %} (shared from <a href="{% url 'core:user-profile' slug=post.parent.user.username %}">@{{ post.parent.user.username }}</a>){% endif %}
+
+          {% if post.parent %}
+            <a href="{% url 'core:user-profile' slug=post.parent.user.username %}" class="badge badge-pill badge-sm badge-info text-uppercase">Shared from @{{ post.parent.user.username }}</a>
+          {% endif %}
 
           <p class="card-t-content">{{ post.content }}</p>
 
@@ -38,8 +41,8 @@
           {% endfor %}
         {% endif %}
 
-{#        <input type='hidden' value="true" name='reply'/>#}
-{#        <input type='hidden' value='{{ comment.id }}' name='parent_id'/>#}
+        {#        <input type='hidden' value="true" name='reply'/>#}
+        {#        <input type='hidden' value='{{ comment.id }}' name='parent_id'/>#}
         {# {{ object }}#}
       </div>
       <div class="modal-footer modal-footer-reply">

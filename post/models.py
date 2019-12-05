@@ -3,6 +3,7 @@ import uuid
 
 from django.db import models
 from django.db.models import Model, CASCADE, Manager, SET_NULL
+from django.urls import reverse
 
 from post.manager import PostManager
 from social_app.settings import AUTH_USER_MODEL
@@ -21,6 +22,9 @@ class Post(Model):
         return os.path.join('user_posts', filename)
 
     attached_image = models.ImageField(upload_to=get_attached_image_file_path, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('post:detail', args=[self.pk])
 
     def __str__(self):
         return self.content

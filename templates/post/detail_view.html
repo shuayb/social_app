@@ -79,6 +79,12 @@
             {% endif %}
 
             <span class="badge badge-pill badge-lg badge-primary text-uppercase  pull-right">At {{ object.timestamp }}</span>
+
+          {% if post.parent %}
+            <a href="{{ post.parent.get_absolute_url }}" class="badge badge-pill badge-lg badge-info text-uppercase">Shared from @{{ object.parent.user.username }}</a>
+          {% endif %}
+
+
           </div>
 
           <div class="py-5 text-center">

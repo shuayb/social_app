@@ -19,9 +19,22 @@
           </h5>
 
           <a href="{% url 'tweet:detail' pk=tweet.pk %}" class="card-t-timestamp" data-tdate="{{ tweet.timestamp }}">{{ tweet.timestamp|timesince }} ago</a>
-{#          <span class="card-t-timestamp" data-tdate="{{ tweet.timestamp }}">{{ tweet.timestamp|timesince }} ago</span>#}
 
-          {% if tweet.parent %} (retweeted from <a href="{% url 'core:user-profile' slug=tweet.parent.user.username %}">@{{ tweet.parent.user.username }}</a>){% endif %}
+          {#          {% if tweet.parent %} (retweeted from <a href="{% url 'core:user-profile' slug=tweet.parent.user.username %}">@{{ tweet.parent.user.username }}</a>){% endif %}#}
+
+          {% if tweet.parent %}
+
+            <a href="{{ tweet.parent.get_absolute_url }}" class="badge badge-pill badge-sm badge-info text-uppercase">
+
+              {% if tweet.reply %}
+                reply to @{{ tweet.parent.user.username }}
+              {% else %}
+                Retweeted from @{{ tweet.parent.user.username }}
+              {% endif %}
+
+            </a>
+
+          {% endif %}
 
           <p class="card-t-content">{{ tweet.content }}</p>
         </div>
