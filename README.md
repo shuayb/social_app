@@ -31,7 +31,7 @@ Follow these steps to create database on Windows
 
 Where `zYTe6sX66ebX5X8` is the user password, set it to your preference.
 
-#### Create DB on Windows
+#### Create DB on Linux
 
 Follow these steps to create database on Linux
 
