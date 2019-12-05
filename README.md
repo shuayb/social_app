@@ -57,12 +57,6 @@ Generate a random secret key by:
 
 Modify the sample file `SECRET_KEY` with the output. Replace `DB_PASSWORD` with password you have set.
 
-
-### API Endpoints
-
-To view the API-endpoints, please visit `/docs`.
-
-
 ### Improvements
 
 1. Add static types, improve readability. 
