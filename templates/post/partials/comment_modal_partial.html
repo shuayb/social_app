@@ -17,7 +17,7 @@
             <span class="media-username-small">
                 <a href="{% url 'core:user-profile' slug=user.username %}">@{{ user.username }}</a></span>
           </h5>
-          <span class="card-t-timestamp" data-tdate="{{ post.timestamp }}">{{ post.timestamp|timesince }} ago</span>
+          <a href="{% url 'post:detail' pk=post.pk %}" class="card-t-timestamp" data-tdate="{{ post.timestamp }}">{{ post.timestamp|timesince }} ago</a>
           {% if post.parent %} (shared from <a href="{% url 'core:user-profile' slug=post.parent.user.username %}">@{{ post.parent.user.username }}</a>){% endif %}
 
           <p class="card-t-content">{{ post.content }}</p>

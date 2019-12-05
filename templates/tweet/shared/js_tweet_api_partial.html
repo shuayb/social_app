@@ -164,7 +164,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             '<h5 class="card-t-user">' +
             tweet.user.name + '<span class="media-username-small"><a href="' + tweet.user.url + '">@' + tweet.user.username + ' </a></span>' +
             '</h5> ' +
-            '<span class="card-t-timestamp" data-tdate="' + tweet.date_display + '">' + tweet.timesince + '</span>' + parent_block +
+            '<a href="' + Urls["tweet:detail"](tweet.id) + '" class="card-t-timestamp" data-tdate="' + tweet.date_display + '">' + tweet.timesince + '</a>' + parent_block +
             '<p class="card-t-content">' +
             tweet.content +
             '</p>' +

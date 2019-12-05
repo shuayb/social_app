@@ -85,7 +85,7 @@ The ul with id 'post-list-group', is needed to get it to work.
             '<h5 class="card-t-user">' +
             post.user.name + '<span class="media-username-small"><a href="' + post.user.url + '">@' + post.user.username + ' </a></span>' +
             '</h5> ' +
-            '<span class="card-t-timestamp" data-tdate="' + post.date_display + '">' + post.timesince + '</span>' + parent_block +
+            '<a href="' + Urls["post:detail"](post.id) + '" class="card-t-timestamp" data-tdate="' + post.date_display + '">' + post.timesince + '</a>' + parent_block +
             '<p class="card-t-content">' +
             post.content +
             '</p>' +
@@ -181,8 +181,8 @@ The ul with id 'post-list-group', is needed to get it to work.
             '</div>' +
             '</div>' +
             '<div class="card-t-footer">' +
-            '<span class="comment-like" data-cid="' + comment.id + '"> ' + like_status + ' </span>' +
-            '<span class="comment-comment js-comment-comment" data-cid="' + comment.id + '">Comment</span> ' +
+            //'<span class="comment-like" data-cid="' + comment.id + '"> ' + like_status + ' </span>' +
+            //'<span class="comment-comment js-comment-comment" data-cid="' + comment.id + '">Comment</span> ' +
             '</div>' +
             '</li>';
         return data
