@@ -79,7 +79,7 @@ class Register(View):
             # mail = "it is todo"
             # messages.success(request, 'A verification email has been sent to ' + str(mail) + "!")
 
-            new_user = authenticate(email=new_user.email,password=form.cleaned_data.get('password'))
+            new_user = authenticate(email=new_user.email, password=form.cleaned_data.get('password'))
             login(request, new_user)
             return redirect('acc:dashboard')
 

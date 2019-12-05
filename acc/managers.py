@@ -1,9 +1,11 @@
+from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import UserManager
 from django.db.models import Manager, QuerySet, Count, F, CharField, Value as V
 from django.db.models.functions import Concat
 from social_app.settings import MEDIA_URL
 
 
-class UserManager(Manager):
+class CustomUserManager(UserManager):
 
     def following_top(self, user):
         qs_following = user.following.all()
@@ -52,20 +54,3 @@ class UserManager(Manager):
             user.following.add(to_toggle_user)
             added = True
         return added
-
-    def get_by_natural_key(self, email):
-        return self.get(email=email)
-
-    @classmethod
-    def normalize_email(cls, email):
-        """
-        Normalize the email address by lowercasing the domain part of it.
-        """
-        email = email or ''
-        try:
-            email_name, domain_part = email.strip().rsplit('@', 1)
-        except ValueError:
-            pass
-        else:
-            email = email_name + '@' + domain_part.lower()
-        return email

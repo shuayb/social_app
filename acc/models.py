@@ -7,7 +7,7 @@ from django.db import models
 from django.db.models import UniqueConstraint
 from django.urls import reverse
 
-from acc.managers import UserManager
+from acc.managers import CustomUserManager
 from social_app.settings import STATIC_URL, DEFAULT_AVATAR_PATH, AUTH_USER_MODEL
 
 
@@ -73,7 +73,7 @@ class User(AbstractUser):
         #             old_instance.avatar.delete(False)
         super().save(*args, **kwargs)
 
-    objects = UserManager()
+    objects = CustomUserManager()
 
     class Meta:
         ordering = ('id',)
