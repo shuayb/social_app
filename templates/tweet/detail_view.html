@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block title %} Tweet by {{ object.user.username }} | {{ block.super }} {% endblock %}
+
 {% block customjs %}
   {% include 'common/../tweet/shared/js_tweet_api_partial.html' with id=object.id query_type='tweet-with-children' %}
 
