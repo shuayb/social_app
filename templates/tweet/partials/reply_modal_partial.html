@@ -17,7 +17,9 @@
             <span class="media-username-small">
                 <a href="{% url 'core:user-profile' slug=user.username %}">@{{ user.username }}</a></span>
           </h5>
-          <span class="card-t-timestamp" data-tdate="{{ tweet.timestamp }}">{{ tweet.timestamp|timesince }} ago</span>
+
+          <a href="{% url 'tweet:detail' pk=tweet.pk %}" class="card-t-timestamp" data-tdate="{{ tweet.timestamp }}">{{ tweet.timestamp|timesince }} ago</a>
+{#          <span class="card-t-timestamp" data-tdate="{{ tweet.timestamp }}">{{ tweet.timestamp|timesince }} ago</span>#}
 
           {% if tweet.parent %} (retweeted from <a href="{% url 'core:user-profile' slug=tweet.parent.user.username %}">@{{ tweet.parent.user.username }}</a>){% endif %}
 
