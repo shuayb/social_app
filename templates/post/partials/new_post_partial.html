@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 <div class="card-body card-no-padding">
-  <form role="form" class="card bg-secondary js-create-tweet-form" method="post" action="{{ create_api_url }}">
+  <form role="form" class="card bg-secondary js-create-post-form" method="post" action="{{ create_api_url }}" enctype="multipart/form-data">
     <div class="card-body">
       {% csrf_token %}
       <div class="form-group">
@@ -11,11 +11,18 @@
               <span class="invalid-feedback">{{ error }}</span>
             {% endfor %}
           {% endif %}
+
+        {{ form.attached_image|add_class:'form-control form-control-alternative'|attr:'placeholder:Select image' }}
+          {% if form.attached_image.errors %}
+            {% for error in form.attached_image.errors %}
+              <span class="invalid-feedback">{{ error }}</span>
+            {% endfor %}
+          {% endif %}
 {#        {{ object }}#}
       </div>
       <div class="row">
         <div class="col-md-6 ml-auto">
-          <button type="submit" id="js-create-tweet-form-submit" class="btn btn-primary pull-right">Tweet!</button>
+          <button type="submit" id="js-create-post-form-submit" class="btn btn-primary pull-right">Post!</button>
         </div>
       </div>
     </div>

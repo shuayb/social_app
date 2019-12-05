@@ -2,26 +2,26 @@
 
 <div class="modal-content">
   <div class="modal-header">
-    <h4 class="modal-title">Reply</h4>
+    <h4 class="modal-title">Comment</h4>
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
   </div>
   <div class="modal-body">
-    <form role="form" class="js-create-reply-tweet-form" method="post" action="{{ reply_api_url }}">
+    <form role="form" class="js-create-comment-post-form" method="post" action="{{ comment_api_url }}">
       {% csrf_token %}
 
       <div class="media card-t">
 
         <img class="border rounded-circle shadow-sm mr-3" src="{{ user.absolute_avatar_url }}" width="60px" height="60px">
         <div class="media-body media-body-text-left">
-          <h5 class="card-t-user">{{ tweet.user.name|default_if_none:"" }}
+          <h5 class="card-t-user">{{ post.user.name|default_if_none:"" }}
             <span class="media-username-small">
                 <a href="{% url 'core:user-profile' slug=user.username %}">@{{ user.username }}</a></span>
           </h5>
-          <span class="card-t-timestamp" data-tdate="{{ tweet.timestamp }}">{{ tweet.timestamp|timesince }} ago</span>
+          <span class="card-t-timestamp" data-tdate="{{ post.timestamp }}">{{ post.timestamp|timesince }} ago</span>
 
-          {% if tweet.parent %} (retweeted from <a href="{% url 'core:user-profile' slug=tweet.parent.user.username %}">@{{ tweet.parent.user.username }}</a>){% endif %}
+          {% if post.parent %} (shared from <a href="{% url 'core:user-profile' slug=post.parent.user.username %}">@{{ post.parent.user.username }}</a>){% endif %}
 
-          <p class="card-t-content">{{ tweet.content }}</p>
+          <p class="card-t-content">{{ post.content }}</p>
         </div>
       </div>
 
@@ -34,13 +34,13 @@
           {% endfor %}
         {% endif %}
 
-        <input type='hidden' value="true" name='reply'/>
-        <input type='hidden' value='{{ tweet.id }}' name='parent_id'/>
+{#        <input type='hidden' value="true" name='reply'/>#}
+{#        <input type='hidden' value='{{ comment.id }}' name='parent_id'/>#}
         {# {{ object }}#}
       </div>
       <div class="modal-footer modal-footer-reply">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Reply</button>
+        <button type="submit" class="btn btn-primary">Publish Comment</button>
       </div>
     </form>
   </div>

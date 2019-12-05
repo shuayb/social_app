@@ -29,10 +29,12 @@ urlpatterns = [
     path('', include('core.urls', namespace='core')),
     path('account/', include('acc.urls', namespace='acc')),
     path('tweets/', include('tweet.urls', namespace='tweet')),
+    path('posts/', include('post.urls', namespace='post')),
 
     # APIs
     path('api/v1/account/', include('acc.api.urls', namespace='api-acc')),
     path('api/v1/tweets/', include('tweet.api.urls', namespace='api-tweet')),
+    path('api/v1/posts/', include('post.api.urls', namespace='api-post')),
 
     # url(r'^api/tweet/', include('tweets.api.urls', namespace='tweet-api')),
 

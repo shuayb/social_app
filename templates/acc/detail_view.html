@@ -3,10 +3,12 @@
 
 {% block customjs %}
   {% include 'common/../tweet/shared/js_tweet_api_partial.html' with id=object.id query_type='user-tweets' %}
+  {% include 'common/../post/shared/js_post_api_partial.html' with id=object.id query_type='user-posts' %}
 
   <script>
    $(document).ready(function () {
       SETTINGS.tweetsAPI();
+      SETTINGS.postsAPI();
    });
   </script>
 {% endblock %}
@@ -106,8 +108,14 @@
                         </div>
 
                         <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel" aria-labelledby="tabs-icons-text-2-tab">
-                          <p class="description">Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel,
-                            butcher voluptate nisi qui.</p>
+
+
+                          <div class="user-posts-box">
+                            <ul class="list-group no-padding-list-group" id="post-list-group">
+                            </ul>
+                          </div>
+
+
                         </div>
 
                       </div>

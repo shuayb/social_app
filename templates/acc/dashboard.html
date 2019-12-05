@@ -6,6 +6,8 @@
   <script>
       $(function () {
           var currentUserID = {{ request.user.id }};
+
+          // fix this.
           function fetchFollowingTopUsers() {
               $.ajax({
                   url: Urls["api-acc:following"](currentUserID),
@@ -37,54 +39,22 @@
               });
           }
 
-          function loadCreate() {
-              {# Alternative way #}
-              {# //$('#tweet:new-tweet-partial').load("{% url 'new-tweet-partial' %}");#}
-              $.ajax({
-                  url: '{% url 'tweet:new-tweet-partial' %}',
-                  type: 'get',
-                  dataType: 'json',
-                  beforeSend: function () {
-                      // Todo add a spinner
-                      {% comment %}
-                      $("#withdrawal-create").block({
-                          message: '<i class="icon-spinner2 spinner"></i>',
-                          overlayCSS: {
-                              backgroundColor: '#fff',
-                              opacity: 0.8,
-                              cursor: 'wait'
-                          },
-                          css: {
-                              border: 0,
-                              padding: 0,
-                              backgroundColor: 'none'
-                          }
-                      });
-                      {% endcomment %}
-                  },
-                  success: function (data) {
-
-                      if (data['status'] == 'ok') {
-                          $("#js-create-tweet-post-box").html(data.html);
-                          //$("#withdrawal-create").unblock();
-                          // Todo Temporary Max Stack Error Resolve
-                      }
-                  }
-              });
-          }
-          loadCreate();
           // Todo: fix it
           //fetchFollowingTopUsers();
       });
 
   </script>
 
-
-  {% include 'common/../tweet/shared/js_tweet_api_partial.html' with id=request.user.id query_type='feed'  %}
+  {% include 'common/../tweet/shared/js_tweet_api_partial.html' with id=request.user.id query_type='feed' %}
+  {% include 'common/../post/shared/js_post_api_partial.html' with id=request.user.id query_type='feed' %}
 
   <script>
       $(document).ready(function () {
           SETTINGS.tweetsAPI();
+          SETTINGS.postsAPI();
+
+          loadCreateTweetForm();
+          loadCreatePostForm();
       });
   </script>
 
@@ -144,23 +114,45 @@
 
         <div class="col-lg-8">
           <div class="row">
-            <div class="col-12 create-tweet-post-box" id="js-create-tweet-post-box">
+            <div class="col-12 create-tweet-post-box" id="js-create-tweet-box">
             </div>
           </div>
-
+          <div class="row pt-2">
+            <div class="col-12 create-post-box" id="js-create-post-box">
+            </div>
+          </div>
           <div class="row pt-4">
             <div class="col-12">
               <div class="card">
-              <div class="card-header d-inline-block">
-                <h5 class="latest-posts-heading">Latest Tweets</h5>
-              </div>
-              <div class="card-body card-no-padding">
-                <div class="user-tweets-box">
-                  <ul class="list-group no-padding-list-group" id="tweet-list-group">
-                  </ul>
+                <div class="card-header d-inline-block">
+                  <h5 class="latest-tweets-heading">Latest Tweets</h5>
+                </div>
+                <div class="card-body card-no-padding">
+
+                  <div class="user-tweets-box">
+                    <ul class="list-group no-padding-list-group" id="tweet-list-group">
+                    </ul>
+                  </div>
+
                 </div>
               </div>
             </div>
+          </div>
+          <div class="row pt-4">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header d-inline-block">
+                  <h5 class="latest-posts-heading">Latest Posts</h5>
+                </div>
+                <div class="card-body card-no-padding">
+
+                  <div class="user-posts-box">
+                    <ul class="list-group no-padding-list-group" id="post-list-group">
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>

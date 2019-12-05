@@ -7,13 +7,20 @@ from rest_framework.serializers import ModelSerializer, Serializer
 class UserSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'email', 'bio', 'website')
+        fields = ('id',
+                  'username',
+                  'email',
+                  'bio',
+                  'website')
 
 
 class RegisterSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'email', 'password')
+        fields = ('id',
+                  'username',
+                  'email',
+                  'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -52,7 +59,7 @@ class UserMiniSerializer(ModelSerializer):
 
 class UserDetailSerializer(ModelSerializer):
     id = serializers.ReadOnlyField()
-    follower_count = serializers.SerializerMethodField()
+    # follower_count = serializers.SerializerMethodField()
 
     class Meta:
         model = get_user_model()
@@ -63,13 +70,11 @@ class UserDetailSerializer(ModelSerializer):
                   'website',)
 
     #             'follower_count')
-
     # def get_follower_count(self, obj):
     #     return 0
 
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.name = validated_data.get('name', instance.name)
         instance.email = validated_data.get('email', instance.email)
         instance.username = validated_data.get('username', instance.username)
         instance.bio = validated_data.get('bio', instance.bio)

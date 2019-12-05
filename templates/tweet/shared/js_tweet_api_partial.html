@@ -6,31 +6,67 @@ The ul with id 'tweet-list-group', is needed to get it to work.
 </ul>
 </div>
 {% endcomment %}
-
 <script>
     // Note: this ID can be either user_obj or tweet_obj,
     // depends on the template that includes it.
     var ID = {{ id }};
     // Valid Options: 'feed', 'user-tweeks', 'single-tweet'
-    var to_Load = '{{ query_type }}';
+    var tweet_f = '{{ query_type }}';
 
     var SETTINGS = window.SETTINGS || {};
 
     SETTINGS.tweetsAPI = function () {
-        switch (to_Load) {
+        switch (tweet_f) {
             case 'feed':
                 loadTweetsFeedAPI();
                 break;
             case 'user-tweets':
                 loadUserTweetsAPI();
                 break;
-            case 'tweet-with-children':
+            case 'single-children':
                 loadTweetWithChildren();
                 break;
             default:
             // console.log('Invalid option');
         }
     };
+
+    // Loads the form which is on dashboard.
+    function loadCreateTweetForm() {
+        {# Alternative way #}
+        {# //$('#tweet:new-tweet-partial').load("{% url 'new-tweet-partial' %}");#}
+        $.ajax({
+            url: '{% url 'tweet:new-tweet-partial' %}',
+            type: 'get',
+            dataType: 'json',
+            beforeSend: function () {
+                // Todo add a spinner
+                {% comment %}
+                $("#withdrawal-create").block({
+                    message: '<i class="icon-spinner2 spinner"></i>',
+                    overlayCSS: {
+                        backgroundColor: '#fff',
+                        opacity: 0.8,
+                        cursor: 'wait'
+                    },
+                    css: {
+                        border: 0,
+                        padding: 0,
+                        backgroundColor: 'none'
+                    }
+                });
+                {% endcomment %}
+            },
+            success: function (data) {
+
+                if (data['status'] == 'ok') {
+                    $("#js-create-tweet-box").html(data.html);
+                    //$("#withdrawal-create").unblock();
+                    // Todo Temporary Max Stack Error Resolve
+                }
+            }
+        });
+    }
 
     // load single user's tweeets ordered by time (descending order)
     function loadUserTweetsAPI() {
@@ -40,10 +76,8 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             method: "GET",
             success: function (data) {
                 console.log(data);
-                tweetList = data.results;
+                var tweetList = data.results;
                 parseAllTweets(tweetList);
-                //updateHashLinks();
-
             },
             error: function (data) {
                 console.log("error");
@@ -100,7 +134,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
                 tweet_container.append(generated);
             });
         } else {
-            tweet_container.append(`<p>Sorry there are currently no tweets by this user.</p>`);
+            tweet_container.append(`<p class="text-center p-2">Sorry there are currently no tweets.</p>`);
         }
     }
 
@@ -137,7 +171,6 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             '</div>' +
             '</li>';
         return data
-
     }
 
     // Delegate function to like tweet.
@@ -182,7 +215,7 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             }
 
         })
-    })
+    });
 
     // Delegate function to retweet.
     $(document.body).on("click", ".tweet-retweet", function (e) {
@@ -192,12 +225,13 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             method: "POST",
             url: Urls["api-tweet:retweet"]({"tweet_pk": this_.attr("data-tid")}),
             success: function (data, textStatus, xhr) {
-                debugger;
+                //debugger;
                 if (data.retweeted) {
                     this_.text("Retweeted")
                 } else {
                     this_.text("Retweet")
                 }
+                location.reload()
             },
             error: function (data) {
                 console.log("error");
@@ -217,41 +251,42 @@ The ul with id 'tweet-list-group', is needed to get it to work.
             type: 'GET',
             dataType: 'json',
             beforeSend: function () {
-                debugger;
+                //debugger;
                 tweet_reply_modal.find(".modal-dialog").html("");
             },
             success: function (data) {
-                debugger;
+                //debugger;
                 tweet_reply_modal.find(".modal-dialog").html(data.reply_partial_html);
                 tweet_reply_modal.modal('show');
             }
         });
     });
 
-    $(document).on("submit", ".js-create-reply-post-form", function (e) {
+    // Delegate reply tweet form submit
+    $(document).on("submit", ".js-create-reply-tweet-form", function (e) {
         e.preventDefault();
         var form = $(this);
         // double-click prevent
         $(this).find(':submit').attr('disabled', 'disabled');
-        debugger
+        //debugger
         $.ajax({
             url: form.attr("action"),
             data: form.serialize(),
             type: form.attr("method"),
             dataType: 'json',
             success: function (data, textStatus, xhr) {
-                debugger
+                //debugger
                 if (xhr.status === 201) {
-                    new PNotify({
-                        text: 'Replied succesfully.!',
-                        {#addclass: 'bg-success'#}
-                    });
+                    //new PNotify({
+                    //    text: 'Replied succesfully.!',
+                    //    {#addclass: 'bg-success'#}
+                    //});
                     var tweet_reply_modal = $("#modal-default-tweet-reply");
                     tweet_reply_modal.modal('hide');
                     tweet_reply_modal.find(".modal-dialog").html('');
                     location.reload();
                 } else if (data.form_is_invalid) {
-                    $("#js-create-tweet-post-box").html(data.html);
+                    $("#js-create-tweet-box").html(data.html);
                 } else {
 
                     new PNotify({
@@ -271,26 +306,27 @@ The ul with id 'tweet-list-group', is needed to get it to work.
         });
     });
 
-    $(document).on("submit", ".js-reply-tweet-post-form", function (e) {
+    $(document).on("submit", ".js-create-tweet-form", function (e) {
         e.preventDefault();
         var form = $(this);
         // double-click prevent
         $(this).find(':submit').attr('disabled', 'disabled');
-        debugger
+        //debugger
         $.ajax({
             url: form.attr("action"),
             data: form.serialize(),
             type: form.attr("method"),
             dataType: 'json',
             success: function (data, textStatus, xhr) {
-                debugger
+                //debugger
                 if (xhr.status === 201) {
-                    new PNotify({
-                        text: 'Tweet Posted!',
-                        {#addclass: 'bg-success'#}
-                    });
+                    //new PNotify({
+                    //    text: 'Tweet Posted!',
+                    //    {#addclass: 'bg-success'#}
+                    //});
+                    location.reload();
                 } else if (data.form_is_invalid) {
-                    $("#js-create-tweet-post-box").html(data.html);
+                    $("#js-create-tweet-box").html(data.html);
                 } else {
 
                     new PNotify({

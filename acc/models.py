@@ -13,7 +13,6 @@ from social_app.settings import STATIC_URL, DEFAULT_AVATAR_PATH, AUTH_USER_MODEL
 
 class User(AbstractUser):
     email_confirmed = models.BooleanField(default=False)
-
     email = models.EmailField(blank=False,
                               unique=True,
                               error_messages={
@@ -21,15 +20,10 @@ class User(AbstractUser):
                                   #          "registered. If you have forgotten "
                                   #          "your password, reset it."
                               })
-
     name = models.CharField(max_length=50, null=True)
-
-    bio = models.CharField(max_length=160, null=True)
-
-    location = models.CharField(max_length=30, null=True)
-
-    website = models.URLField(max_length=100, null=True)
-
+    bio = models.CharField(max_length=160, null=True, blank=True)
+    location = models.CharField(max_length=30, null=True, blank=True)
+    website = models.URLField(max_length=100, null=True, blank=True)
     following = models.ManyToManyField(AUTH_USER_MODEL,
                                        through='UserFollowingBridge',
                                        through_fields=('from_user', 'to_user'),
@@ -40,6 +34,7 @@ class User(AbstractUser):
         filename = "{}.{}".format(uuid.uuid4().hex, ext)
         return os.path.join('user_avatars', filename)
 
+    # avatar = models.ImageField(upload_to=get_avatar_file_path, blank=True, null=True)
     avatar = models.ImageField(upload_to=get_avatar_file_path, blank=True, null=True)
 
     # Todo: Use field to save the count in future

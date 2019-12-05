@@ -3,7 +3,7 @@ from tweet.models import Tweet
 
 
 class TweetModelAdmin(admin.ModelAdmin):
-    list_display = ('parent', 'user', 'content', 'reply', 'updated', 'timestamp')
+    list_display = ('id', 'parent', 'user', 'content', 'reply', 'updated', 'timestamp')
 
     # form = TweetModelForm
     class Meta:

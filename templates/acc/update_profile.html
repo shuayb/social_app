@@ -117,7 +117,8 @@
                     <div class="form-group row">
                       <label class="col-lg-3 col-form-label form-control-label">Avatar</label>
                       <div class="col-lg-9">
-                        {{ form.avatar|add_class:'form-control'|attr:'placeholder:Upload your image' }}
+{#                        {{ form.avatar|add_class:'form-control'|attr:'placeholder:Upload your image' }}#}
+                      {{ form.avatar }}
                         {% if form.avatar.errors %}
                           <!-- Error Block -->
                           {% for error in form.avatar.errors %}

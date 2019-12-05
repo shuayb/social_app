@@ -196,7 +196,7 @@ PASSWORD_HASHERS = [
 
 # JS_REVERSE_EXCLUDE_NAMESPACES = ['admin', 'djdt', ...]
 # JS_REVERSE_EXCLUDE_NAMESPACES = ['admin']
-JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['api-acc', 'api-tweet', 'tweet']
+JS_REVERSE_INCLUDE_ONLY_NAMESPACES = ['api-acc', 'api-tweet', 'api-post', 'tweet', 'post']
 
 
 # Assigns read+write to user, group and other

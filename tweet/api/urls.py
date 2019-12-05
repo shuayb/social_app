@@ -4,7 +4,8 @@ from .views import (TweetListByUserAPIView,
                     TweetCreateAPIView,
                     TweetDetailAPIView,
                     TweetFeedListAPIView,
-                    TweetRetweetAPIView, TweetReplyAPIView)
+                    TweetRetweetAPIView,
+                    TweetReplyAPIView)
 
 app_name = 'tweet'
 
