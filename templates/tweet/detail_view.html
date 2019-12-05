@@ -65,11 +65,28 @@
             </div>
             <div class="text-center mt-5">
               <h3>{{ object.user.name|default_if_none:"" }}{% comment %}<span class="font-weight-light">, 27</span>{% endcomment %}</h3>
-              <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i><a href="{% url 'core:user-profile' slug=object.user.username %}">@{{ object.user.username|default_if_none:"" }}</a></div>
+              <div class="h6 font-weight-300"><i class="ni location_pin mr-2"></i><a href="{% url 'core:user-profile' slug=object.user.username %}">@{{ object.user.username|default_if_none:"" }}</a>
+              </div>
             </div>
 
             <p class="lead">{{ object.content }}</p>
-            <span class="badge badge-pill badge-lg badge-primary text-uppercase">At {{ object.timestamp }}</span>
+            <span class="badge badge-pill badge-lg badge-primary text-uppercase  pull-right">At {{ object.timestamp }}</span>
+
+            {% if object.parent %}
+
+              <a href="{{ object.parent.get_absolute_url }}" class="badge badge-pill badge-lg badge-info text-uppercase">
+
+              {% if tweet.reply %}
+                reply to @{{ object.parent.user.username }}
+              {% else %}
+                Retweeted from @{{ object.parent.user.username }}
+              {% endif %}
+
+              </a>
+
+            {% endif %}
+
+
           </div>
 
           <div class="py-5 text-center">
